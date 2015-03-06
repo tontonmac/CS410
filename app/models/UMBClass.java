@@ -14,19 +14,18 @@ public class UMBClass extends Model {
     @Id
     public Long id;
 
-    @Constraints.Required
-    public Long term_id;
-
-    @Constraints.Required
-    public Long course_id;
-
+    @OneToOne
+    @JoinColumn(name = "term_id", referencedColumnName = "id")
+    public Term term;
+    
+    @OneToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    public Course course;
+    
     @Constraints.Required
     public String section_number;
 
     public String instructor_name;
-
-    @OneToOne
-    public Course course;
 
     @JoinTable(name="required_book")
     @ManyToMany(cascade = CascadeType.ALL)

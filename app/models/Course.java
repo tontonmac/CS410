@@ -1,6 +1,7 @@
 package models;
 
 import java.util.*;
+
 import javax.persistence.*;
 
 import play.db.ebean.*;
@@ -14,12 +15,14 @@ public class Course extends Model {
     public Long id;
 
     @Constraints.Required
-    public Long department_id;
-
-    @Constraints.Required
     public String name;
+    
+    @Constraints.Required
+    public String number;
 
     @OneToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    @Constraints.Required
     public Department department;
 
     @OneToMany
