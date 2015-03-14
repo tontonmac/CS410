@@ -14,16 +14,41 @@ public class Course extends Model {
     public Long id;
 
     @Constraints.Required
-    public Long department_id;
-
-    @Constraints.Required
     public String name;
 
-    @OneToOne
+    @Constraints.Required
+    public String number;
+
+    @ManyToOne(optional = false)
     public Department department;
 
     @OneToMany
     public List<UMBClass> umbClasses;
 
     public static Finder<Long,Course> find = new Finder<Long,Course>(Long.class, Course.class);
+
+    public Course(Department dept, String name, String number) {
+        this.name = name;
+        this.number = number;
+        this.department = dept;
+    }
+
+    public static Course findOrCreate(Department dept, String name, String number) {
+        Course course = findUnique(dept, number);
+
+        if (course == null) {
+            course = new Course(dept, name, number);
+            course.save();
+        }
+
+        return course;
+    }
+
+    public static Course findUnique(Department dept, String number) {
+        return find.where().eq("number", number).eq("department_id", dept.id).findUnique();
+    }
+
+    public String toString() {
+        return this.number + ": " + this.name;
+    }
 }
