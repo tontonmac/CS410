@@ -8,8 +8,8 @@ insert into course(id, department_id,name, number) values (2, 1, "Programming in
 insert into course(id, department_id,name, number) values (3, 1, "Applied Discrete Mathematics", "320L");
 insert into course(id, department_id,name, number) values (4, 2, "Physiological Chemistry", "130");
 
-insert into term(id, name) values (1, "Spring 2015");
-insert into term(id, name) values (2, "Summer 2015");
+insert into term(id, name, url) values (1, "Spring 2015", "http://www.umb.edu/academics/course_catalog/subjects/2015%20Spring");
+insert into term(id, name) values (2, "Summer 2015", "http://www.umb.edu/academics/course_catalog/subjects/2015%20Summer");
 
 insert into class(id,term_id,course_id,section_number,instructor_name) values (1, 1, 4, "01", "Dransfield,Timothy");
 insert into class(id,term_id,course_id,section_number,instructor_name) values (2, 1, 4, "01D", "Dransfield,Timothy");

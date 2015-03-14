@@ -18,6 +18,7 @@ CREATE TABLE department (
 CREATE TABLE term (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(32) NOT NULL,
+    url varchar(256),
     PRIMARY KEY (id),
     UNIQUE (name)
 );
