@@ -65,6 +65,6 @@ public class CourseImporter extends Base {
 
     private Resource buildResource(String courseName, String courseNumber, String courseUrl) {
         Course course = Course.findOrCreate(dept, courseName, courseNumber);
-        return new Resource<Course>(course, courseUrl, this.dept, this.term, course);
+        return new Resource<Course>(course, courseUrl, this.dept, this.term, course, null);
     }
 }

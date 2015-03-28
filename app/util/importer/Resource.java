@@ -7,16 +7,18 @@ public class Resource<T extends Model> {
     private Department dept;
     private Term term;
     private Course course;
+    private UMBClass umbClass;
     private String url;
 
     private T model;
 
-    public Resource(T model, String url, Department dept, Term term, Course course) {
+    public Resource(T model, String url, Department dept, Term term, Course course, UMBClass umbClass) {
         this.model = model;
         this.url = url;
         this.dept = dept;
         this.term = term;
         this.course = course;
+        this.umbClass = umbClass;
     }
 
     public T getModel() {
@@ -35,6 +37,9 @@ public class Resource<T extends Model> {
         return course;
     }
 
+    public UMBClass getUMBClass() {
+        return umbClass;
+    }
     public Department getDepartment() {
         return dept;
     }

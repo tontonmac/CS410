@@ -99,6 +99,10 @@ CREATE TABLE book (
     publisher varchar(512),
     image_path varchar(256),
     edition varchar(16),
+    buy_new_price decimal(8,2),
+    buy_used_price decimal(8,2),
+    rent_new_price decimal(8,2),
+    rent_used_price decimal(8,2),
     PRIMARY KEY (id),
     UNIQUE (isbn)
 );
@@ -113,23 +117,8 @@ CREATE TABLE required_book (
     UNIQUE (class_id,book_id)
 );
 
-CREATE TABLE book_price (
-    id int NOT NULL AUTO_INCREMENT,
-    book_id int NOT NULL,
-    buy_new_price decimal(8,2),
-    buy_used_price decimal(8,2),
-    rent_new_price decimal(8,2),
-    rent_used_price decimal(8,2),
-    url varchar(1024),
-    PRIMARY KEY (id),
-    FOREIGN KEY (book_id) REFERENCES book(id),
-    UNIQUE (book_id)
-);
-
-
 # --- !Downs
  
-DROP TABLE book_price;
 DROP TABLE required_book;
 DROP TABLE book;
 DROP TABLE book_listing;

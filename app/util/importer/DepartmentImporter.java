@@ -61,7 +61,7 @@ public class DepartmentImporter extends Base {
 
     private Resource<Department> buildResource(String shortDeptName, String fullDeptName, String deptUrl) {
         Department dept = Department.findOrCreate(shortDeptName, fullDeptName);
-        return new Resource<Department>(dept, deptUrl, dept, term, null);
+        return new Resource<Department>(dept, deptUrl, dept, term, null, null);
     }
 
 }

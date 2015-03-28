@@ -24,4 +24,8 @@ public class Term extends Model {
     public static Term findUnique(String name) {
         return find.where().eq("name", name).findUnique();
     }
+
+    public String bookstoreId() {
+        return "2430";    // UMB bookstore ID.  Will this change?
+    }
 }

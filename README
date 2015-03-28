@@ -17,5 +17,14 @@ activator run
 ## Try it out ##
 Access the server with your browser @ http://localhost:9000. Play will automatically connect to the database and apply our schema migrations.
 
+==== Using the importer =====
+
+You can import the departments, courses, classes, etc from the play console.  Note that this is a single threaded import, and currently takes an hour or two to run on my internet connection:
+
+new play.core.StaticApplication(new java.io.File("."))
+new util.importer.App("Spring 2015").performImport()
+
+The import can safely be run again at a future date without resulting in all of the data being duplicated.
+
 
 

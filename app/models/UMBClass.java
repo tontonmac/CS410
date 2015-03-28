@@ -23,9 +23,11 @@ public class UMBClass extends Model {
     public Course course;
 
     @Constraints.Required
-    public String section_number;
+    @Column(name = "section_number")
+    public String sectionNumber;
 
-    public String instructor_name;
+    @Column(name = "instructor_name")
+    public String instructorName;
 
     @JoinTable(name="required_book")
     @ManyToMany(cascade = CascadeType.ALL)
@@ -34,11 +36,16 @@ public class UMBClass extends Model {
     public UMBClass(Term term, Course course, String section, String instructor) {
         this.term = term;
         this.course = course;
-        this.section_number = section;
-        this.instructor_name = instructor;
+        this.sectionNumber = section;
+        this.instructorName = instructor;
     }
 
     public static Finder<Long,UMBClass> find = new Finder<Long,UMBClass>(Long.class, UMBClass.class);
+
+    // TODO: can we use JPA for this has-one :through type association?
+    public Department department() {
+        return course.department;
+    }
 
     public static UMBClass findOrCreate(Term term, Course course, String section, String instructor) {
         UMBClass umbClass = findUnique(term, course, section);
@@ -47,7 +54,7 @@ public class UMBClass extends Model {
             umbClass = new UMBClass(term, course, section, instructor);
             umbClass.save();
         } else {
-            umbClass.instructor_name = instructor;
+            umbClass.instructorName = instructor;
             umbClass.save();
         }
 
@@ -65,12 +72,12 @@ public class UMBClass extends Model {
     public String toString() {
         String str = "";
 
-        if (section_number != null) {
-            str += section_number;
+        if (sectionNumber != null) {
+            str += sectionNumber;
         }
 
-        if (instructor_name != null) {
-            str += "(" + instructor_name + ")";
+        if (instructorName != null) {
+            str += "(" + instructorName + ")";
         }
 
         return str;

@@ -19,9 +19,73 @@ public class Book extends Model {
     public String author;
     public String isbn;
     public String publisher;
-    public String image_path;
     public String edition;
-    public Date copyright_date;
+
+    @Column(name = "image_path")
+    public String imagePath;
+    @Column(name = "copyright_date")
+    public java.sql.Date copyrightDate;
+    @Column(name = "buy_new_price")
+    public double buyNewPrice;
+    @Column(name = "buy_used_price")
+    public double buyUsedPrice;
+    @Column(name = "rent_new_price")
+    public double rentNewPrice;
+    @Column(name = "rent_used_price")
+    public double rentUsedPrice;
+
+    public Book(String title, String author, String isbn, Date copyrightDate, String publisher, String edition) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.copyrightDate = new java.sql.Date(copyrightDate.getTime());
+        this.publisher = publisher;
+        this.edition = edition;
+    }
+
+    public static Book findOrCreate(String title, String author, String isbn, java.sql.Date copyrightDate, String publisher, String edition) {
+        Book book;
+
+        if (isbn == null || isbn == "") {
+            book = findUnique(title, author, publisher, copyrightDate);
+        } else {
+            book = findUnique(isbn);
+        }
+
+        if (book == null) {
+            book = new Book(title, author, isbn, copyrightDate, publisher, edition);
+        } else {
+            book.title = title;
+            book.author = author;
+            book.isbn = isbn;
+            book.copyrightDate = copyrightDate;
+            book.publisher = publisher;
+            book.edition = edition;
+        }
+
+        book.save();
+        return book;
+    }
+
+    public void resetPrices() {
+        this.buyNewPrice = 0;
+        this.buyUsedPrice = 0;
+        this.rentNewPrice = 0;
+        this.rentUsedPrice = 0;
+    }
+
+    public static Book findUnique(String title, String author, String publisher, java.sql.Date copyrightDate) {
+        return find.where().
+            eq("title", title).
+            eq("author", author).
+            eq("publisher", publisher).
+            eq("copyright_date", copyrightDate).
+            findUnique();
+    }
+
+    public static Book findUnique(String isbn) {
+        return find.where().eq("isbn", isbn).findUnique();
+    }
 
     public static Finder<Long,Book> find = new Finder<Long,Book>(Long.class, Book.class);
 }

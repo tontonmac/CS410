@@ -2,6 +2,9 @@ package util.importer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.Validate;
@@ -14,20 +17,47 @@ public abstract class Base {
     // non-breaking space (i.e. &nbsp)
     protected static final String RE_SPACE = "[\\s\\xC2\\xA0]+";
 
+    private HashMap<String, Document> cachedDocument = new HashMap<>();
+
     protected void log(String msg) {
         System.out.println(msg);
     }
 
     public abstract ArrayList<Resource> performImport() throws IOException;
 
+    private HashMap<String, Document> cachedDocuments = new HashMap<>();
+
     protected Document getDocument(String url) throws IOException {
+        return getDocument(url, true);
+    }
+
+    // replace all types of spaces (HTML and regular) with a regular space
+    protected String normalizeSpaces(String origStr) {
+        Pattern pattern = Pattern.compile(RE_SPACE);
+
+        Matcher matcher = pattern.matcher(origStr);
+        return matcher.replaceAll(" ");
+    }
+
+    protected Document getDocument(String url, Boolean enableCaching) throws IOException {
         int maxRetries = 5;
         int numRetries = 0;
         int timeoutSec = 30;
 
+        if (enableCaching && cachedDocument.containsKey(url)) {
+            return cachedDocument.get(url);
+        }
+
         while(true) {
             try {
-                return Jsoup.connect(url).timeout(timeoutSec * 1000).get();
+                log("fetching url: " + url);
+                Document doc = Jsoup.connect(url).timeout(timeoutSec * 1000).get();
+
+                if (enableCaching) {
+                    cachedDocument.put(url, doc);
+                }
+
+                return doc;
             } catch (Exception ex) {
                 if (++numRetries > maxRetries) {
                     throw ex;
@@ -41,6 +71,7 @@ public abstract class Base {
                 }
             }
         }
+
     }
 
     protected boolean isHeaderRow(Element elem) {
