@@ -15,6 +15,7 @@ GET        /buy                 controllers.Buying.buy()
 GET        /book/new            controllers.Book.newBook()
 GET        /book/edit           controllers.Book.editBook()
 GET        /book/show           controllers.Book.showBook()
+GET		   /book/delete         controllers.Book.deleteBook()
 
 # Support
 GET        /support             controllers.Support.support()
