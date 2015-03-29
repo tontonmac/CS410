@@ -1,0 +1,64 @@
+@(message: String) @main("UMBooks") {
+
+<div class="jumbotron splash-header">
+	<div class="container">
+		<h1>Beacon Books</h1>
+		<p>Most students spend around $1200 on textbooks per year. Don't
+			be like most students. Save big on textbooks.</p>
+	</div>
+</div>
+
+
+<div class="container">
+	<h2>Search by course</h2>
+	<form>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="term">Term</label> <select class="term">
+						<!--  fill this in dynamically -->
+						<option value="FALL2015">Fall 2015</option>
+					</select>
+				</div>
+				<div class="col-sm-3">
+					<label for="deparment">Department</label> <select
+						class="department">
+						<!--  fill this in dynamically -->
+						<option value="CS">CS</option>
+					</select>
+				</div>
+				<div class="col-sm-3">
+					<label for="course">Course</label> <select class="course">
+						<!--  fill this in dynamically -->
+						<option value="CS410">CS410</option>
+					</select>
+				</div>
+				<div class="col-sm-3">
+					<label for="section">Section</label> <select class="section">
+						<!--  fill this in dynamically -->
+						<option value="1">1</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-default">Go</button>
+	</form>
+	<hr />
+	<form>
+		<div class="form-group">
+			<h2>ISBN Lookup</h2>
+			<label for="isbn">ISBN</label> <input type="text"
+				class="form-control" id="isbn">
+		</div>
+		<button type="submit" class="btn btn-default">Go</button>
+	</form>
+
+	<form>
+		<div class="form-group">
+			<h2>Upload class schedule</h2>
+			<label for="upload">File input</label> <input type="file" id="upload">
+		</div>
+	</form>
+</div>
+
+}
