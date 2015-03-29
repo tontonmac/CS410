@@ -7,7 +7,7 @@ import views.html.*;
 public class Buying extends Controller {
 
     public static Result buy() {
-        return ok(buy.render("Your new application is ready."));
+        return ok(buy.render());
     }
 
 }

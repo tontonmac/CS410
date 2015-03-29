@@ -7,7 +7,7 @@ import views.html.*;
 public class LoginRegister extends Controller {
 
     public static Result login() {
-        return ok(login.render("Your new application is ready."));
+        return ok(login.render());
     }
 
 }
