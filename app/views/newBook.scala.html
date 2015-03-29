@@ -1,3 +1,64 @@
 @main("UMBooks") {
-    new book placeholder
+
+    <div class="jumbotron splash-header">
+        <div class="container">
+            <h1>Beacon Books</h1>
+            <p>Most students spend around $1200 on textbooks per year.  Don't be like most students. Save big on textbooks.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <h2>Sell a book</h2>
+            <p>Use the form below to fill out the information for the book you'd like to sell</p>
+            <form>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN</label>
+                        <input type="text" class="form-control" id="isbn">
+                    </div>
+                    <div class="form-group">
+                        <label for="condition">Condition</label>
+                        <select class="form-control" id="condition">
+                            <option>New</option>
+                            <!-- todo: add dynamic donditions here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" id="upload">
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Author</label>
+                        <input type="text" class="form-control" id="author">
+                    </div>
+                    <div class="form-group">
+                        <label for="publisher">Publisher</label>
+                        <input type="text" class="form-control" id="publisher">
+                    </div>
+                    <div class="form-group">
+                        <label for="edition">Edition/Year</label>
+                        <input type="text" class="form-control" id="edition">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" rows=5 class="form-control" id="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $('select').select2();
+    </script>
 }
+
