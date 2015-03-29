@@ -1,3 +1,5 @@
+@(terms: List[Term], departments: List[Department])
+
 @main("UMBooks") {
 
 <div class="jumbotron splash-header">
@@ -16,15 +18,17 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<label for="term">Term</label> <select class="term">
-						<!--  fill this in dynamically -->
-						<option value="FALL2015">Fall 2015</option>
+						@for(term <- terms) {
+							<option value="@term.id">@term.name</option>
+						}
 					</select>
 				</div>
 				<div class="col-sm-3">
 					<label for="deparment">Department</label> <select
 						class="department">
-						<!--  fill this in dynamically -->
-						<option value="CS">CS</option>
+						@for(department <- departments) {
+							<option value="@department.id">@department.fullName</option>
+						}
 					</select>
 				</div>
 				<div class="col-sm-3">

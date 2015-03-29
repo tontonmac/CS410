@@ -46,6 +46,10 @@ public class Department extends Model {
 
     public static Finder<Long,Department> find = new Finder<Long,Department>(Long.class, Department.class);
 
+    public static List<Department> findAll() {
+    	return find.all();
+    }
+    
     public static Department findUnique(String short_name) {
         return find.where().eq("short_name", short_name).findUnique();
     }

@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -25,6 +27,10 @@ public class Term extends Model {
         return find.where().eq("name", name).findUnique();
     }
 
+    public static List<Term> findAll() {
+        return find.all();
+    }
+    
     public String bookstoreId() {
         return "2430";    // UMB bookstore ID.  Will this change?
     }
