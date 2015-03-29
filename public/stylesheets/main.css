@@ -1,0 +1,52 @@
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+.theme-dropdown .dropdown-menu {
+    position: static;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+    margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+    width: auto;
+}
+
+footer {
+    text-align: center;
+    color: #ddd;
+}
+
+.footer-divider {
+    margin-top: 80px;
+}
+
+.splash-header {
+    padding: 45px 15px;
+    /*background-image: linear-gradient(#028DF0, #5DB4F2);*/
+    /*background-image: linear-gradient(#185798, #4096EE);*/
+    background-image: linear-gradient(#185798, #428bca);
+    background-repeat: repeat-x;
+    margin-top: -20px;
+}
+
+.splash-header h1 {
+    color: #fff;
+    margin-top: 0;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+}
+
+.splash-header p {
+    color: #9ACFF5;
+}
+
+.buy-sell-splash {
+    margin-top: 30px;
+    text-align: center;
+}
+
