@@ -28,8 +28,6 @@ footer {
 
 .splash-header {
     padding: 45px 15px;
-    /*background-image: linear-gradient(#028DF0, #5DB4F2);*/
-    /*background-image: linear-gradient(#185798, #4096EE);*/
     background-image: linear-gradient(#185798, #428bca);
     background-repeat: repeat-x;
     margin-top: -20px;
