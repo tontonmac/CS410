@@ -1,0 +1,36 @@
+@(message: String)
+
+@main("UMBooks") {
+
+<div class="jumbotron splash-header">
+    <div class="container">
+        <h1>Beacon Books</h1>
+        <p>Most students spend around $1200 on textbooks per year.  Don't be like most students. Save big on textbooks.</p>
+    </div>
+</div>
+
+
+<div class="container">
+    <!-- dynamically generate rows for each listing based on the following html snippet -->
+    <div class="row">
+    <h2>My Listings</h2>
+        <div class="col-sm-1">
+        	<img src="example.png" width="120" height="120" />
+        </div>
+        <div class="col-sm-10 col-sm-offset-1">
+        	<h3>Title</h3>
+        	<p>Author</p>
+        	<p>Price<p>
+        	<p># views</p>
+        	<p>Description</p>
+        </div>
+    </div>
+    
+    <!-- display the following if there are no listings -->
+    <p>You're not listing anything yet</p>
+    
+    <!-- always display the list a book button -->
+    <a class="btn btn-default btn-md" href="#" role="button">List a book</a>
+</div>
+
+}
