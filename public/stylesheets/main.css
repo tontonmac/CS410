@@ -48,3 +48,18 @@ footer {
     text-align: center;
 }
 
+/* book show styles */
+
+.tbl_dl tr {
+    vertical-align: top;
+}
+
+.tbl_dl td {
+    padding: 10px 0 10px 0;
+}
+
+.tbl_dl td:first-child {
+    font-weight: bold;
+    width: 200px;
+}
+
