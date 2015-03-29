@@ -3,19 +3,24 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET        /                    controllers.Application.index()
 
 # Login Register
-GET     /login                      controllers.LoginRegister.login()
+GET        /login               controllers.LoginRegister.login()
 
 # Buy
-GET     /buy                      controllers.Buying.buy()
+GET        /buy                 controllers.Buying.buy()
+
+# Book controller
+GET        /book/new            controllers.Book.newBook()
+GET        /book/edit           controllers.Book.editBook()
+GET        /book/show           controllers.Book.showBook()
 
 # Support
-GET     /support                      controllers.Support.support()
+GET        /support             controllers.Support.support()
 
 # Listings
 GET     /listings                      controllers.Selling.listings()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET        /assets/*file        controllers.Assets.at(path="/public", file)
