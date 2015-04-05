@@ -10,6 +10,7 @@ GET        /login               controllers.LoginRegister.login()
 
 # Buy
 GET        /buy                 controllers.Buying.buy()
+GET		   /buy/books           controllers.Buying.listBooks()
 
 # Book controller
 GET        /book/new            controllers.Book.newBook()

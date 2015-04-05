@@ -43,6 +43,22 @@ public class Book extends Model {
         this.edition = edition;
     }
 
+    public String bookstoreUrl() {
+        return "http://www.bkstr.com/webapp/wcs/stores/servlet/NavigationSearch?" +
+                "searchTerm=" + this.isbn + "&storeId=10348&resultCatEntryType=2&" +
+                "showResultsPage=true";
+    }
+
+    public String getCopyrightYear() {
+        if (copyrightDate == null) {
+            return "unknown";
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(copyrightDate);
+            return Integer.toString(cal.get(Calendar.YEAR));
+        }
+    }
+
     public static Book findOrCreate(String title, String author, String isbn, java.sql.Date copyrightDate, String publisher, String edition) {
         Book book;
 
