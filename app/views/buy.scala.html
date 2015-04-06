@@ -16,14 +16,14 @@
 	<form action="/buy/searchByCourse" method="post">
 		<div class="form-group">
 			<div class="row">
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<label for="term">Term</label> <select name="term" class="term">
 						@for(term <- terms) {
 							<option value="@term.id">@term.name</option>
 						}
 					</select>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<label for="deparment">Department</label> <select name="department"
 						class="department">
 						@for(department <- departments) {
@@ -31,14 +31,14 @@
 						}
 					</select>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<label for="course">Course</label> <select name="course" class="course">
 						@for(course <- courses) {
-							<option value="@course.id">@course.name</option>
+							<option value="@course.id">@course.number</option>
 						}
 					</select>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<label for="section">Section</label> <select name="section" class="section">
 						@for(section <- sections) {
 							<option value="@section">@section</option>
