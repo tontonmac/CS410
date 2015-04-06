@@ -1,0 +1,26 @@
+@(courses: List[Course])
+
+@main("UMBooks"){
+    <div class="jumbotron splash-header">
+        <div class="container">
+            <h1>Beacon Books</h1>
+            <p>Most students spend around $1200 on textbooks per year. Don't
+                be like most students. Save big on textbooks.</p>
+        </div>
+    </div>
+    <div class="container">
+        <h2>@courses.size() Courses successfully uploaded from class schedule:</h2>
+        <div class="row">
+                @for(course <- courses) {
+                    <div class="course-tile">
+                        <div id="box">
+                            <p>@course.name</p>
+                            <p>@course.department</p>
+                            <p>@course.number</p>
+                        <button type="submit" class="btn btn-primary @course.name">Find Books</button>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+}
