@@ -1,7 +1,12 @@
 package models;
 
 import java.util.*;
+
 import javax.persistence.*;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.RawSqlBuilder;
+import com.avaje.ebean.SqlRow;
 
 import play.db.ebean.*;
 import play.data.format.*;
@@ -46,7 +51,6 @@ public class UMBClass extends Model {
     public Department department() {
         return course.department;
     }
-
     public static UMBClass findOrCreate(Term term, Course course, String section, String instructor) {
         UMBClass umbClass = findUnique(term, course, section);
 
@@ -68,7 +72,19 @@ public class UMBClass extends Model {
             eq("section_number", section).
             findUnique();
     }
-
+    
+    public static List<String> findUniqueSections() {
+    	List<SqlRow> rows = Ebean.createSqlQuery("select section_number from class group by section_number").findList();
+    	
+    	List<String> sectionNumbers = new ArrayList<String>();
+    	
+    	for (SqlRow row : rows) {
+    		sectionNumbers.add(row.getString("section_number"));
+    	}
+    	
+    	return sectionNumbers;
+    }
+    
     public String toString() {
         String str = "";
 

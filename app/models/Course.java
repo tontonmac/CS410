@@ -20,7 +20,7 @@ public class Course extends Model {
     @Constraints.Required
     public String number;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     @Constraints.Required
     public Department department;
@@ -50,7 +50,15 @@ public class Course extends Model {
     public static Course findUnique(Department dept, String number) {
         return find.where().eq("number", number).eq("department_id", dept.id).findUnique();
     }
+    
+    public static Course findById(Long id) {
+    	return find.byId(id);
+    }
 
+    public static List<Course> findAll() {
+    	return find.all();
+    }
+    
     public String toString() {
         return this.number + ": " + this.name;
     }

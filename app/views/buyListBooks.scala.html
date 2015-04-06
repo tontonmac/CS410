@@ -79,28 +79,28 @@
                                             <th>Buy / Rent </th>
                                             <th>Price</th>
                                         </tr>
-                                        @if(book.buyNewPrice > 0) {
+                                        @if(book.buyNewPrice != null && book.buyNewPrice > 0) {
                                             <tr>
                                                 <td>New</td>
                                                 <td>Buy</td>
                                                 <td>$@book.buyNewPrice</td>
                                             </tr>
                                         }
-                                        @if(book.buyUsedPrice > 0) {
+                                        @if(book.buyUsedPrice != null && book.buyUsedPrice > 0) {
                                             <tr>
                                                 <td>Used</td>
                                                 <td>Buy</td>
                                                 <td>$@book.buyUsedPrice</td>
                                             </tr>
                                         }
-                                        @if(book.rentNewPrice > 0) {
+                                        @if(book.rentNewPrice != null && book.rentNewPrice > 0) {
                                             <tr>
                                                 <td>New</td>
                                                 <td>Rent</td>
                                                 <td>$@book.rentNewPrice</td>
                                             </tr>
                                         }
-                                        @if(book.rentUsedPrice > 0) {
+                                        @if(book.rentNewPrice != null && book.rentUsedPrice > 0) {
                                             <tr>
                                                 <td>Used</td>
                                                 <td>Rent</td>

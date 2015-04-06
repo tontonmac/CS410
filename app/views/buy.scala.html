@@ -1,4 +1,4 @@
-@(terms: List[Term], departments: List[Department])
+@(terms: List[Term], departments: List[Department], courses: List[Course], sections: List[String])
 
 @main("UMBooks") {
 
@@ -13,18 +13,18 @@
 
 <div class="container">
 	<h2>Search by course</h2>
-	<form>
+	<form action="/buy/searchByCourse" method="post">
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-3">
-					<label for="term">Term</label> <select class="term">
+					<label for="term">Term</label> <select name="term" class="term">
 						@for(term <- terms) {
 							<option value="@term.id">@term.name</option>
 						}
 					</select>
 				</div>
 				<div class="col-sm-3">
-					<label for="deparment">Department</label> <select
+					<label for="deparment">Department</label> <select name="department"
 						class="department">
 						@for(department <- departments) {
 							<option value="@department.id">@department.fullName</option>
@@ -32,15 +32,17 @@
 					</select>
 				</div>
 				<div class="col-sm-3">
-					<label for="course">Course</label> <select class="course">
-						<!--  fill this in dynamically -->
-						<option value="CS410">CS410</option>
+					<label for="course">Course</label> <select name="course" class="course">
+						@for(course <- courses) {
+							<option value="@course.id">@course.name</option>
+						}
 					</select>
 				</div>
 				<div class="col-sm-3">
-					<label for="section">Section</label> <select class="section">
-						<!--  fill this in dynamically -->
-						<option value="1">1</option>
+					<label for="section">Section</label> <select name="section" class="section">
+						@for(section <- sections) {
+							<option value="@section">@section</option>
+						}
 					</select>
 				</div>
 			</div>
@@ -48,11 +50,11 @@
 		<button type="submit" class="btn btn-default">Go</button>
 	</form>
 	<hr />
-	<form>
+	<form action="/buy/searchByIsbn" method="get">
 		<div class="form-group">
 			<h2>ISBN Lookup</h2>
 			<label for="isbn">ISBN</label> <input type="text"
-				class="form-control" id="isbn">
+				class="form-control" name="isbn" id="isbn">
 		</div>
 		<button type="submit" class="btn btn-default">Go</button>
 	</form>

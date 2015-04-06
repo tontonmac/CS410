@@ -31,6 +31,10 @@ public class Term extends Model {
         return find.all();
     }
     
+    public static Term findById(Long id) {
+    	return find.byId(id);
+    }
+    
     public String bookstoreId() {
         return "2430";    // UMB bookstore ID.  Will this change?
     }
