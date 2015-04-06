@@ -67,6 +67,8 @@ public class Buying extends Controller {
             File file = schedule.getFile();
             String courseName = null;
             String courseNumber  = null;
+
+            // todo: replace hardcoded CS with parsed dept info
             Department dept = new Department("Computer Science","CS");
 
             try {
