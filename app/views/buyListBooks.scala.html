@@ -12,6 +12,10 @@
     </div>
 }
 
+@to_currency(num:Double) = {
+    $@{"%.2f".format(num)}
+}
+
 @main("Beacon Books - Required Books") {
     <div class="container buy_list_books">
         <h1 class="page-header">
@@ -77,28 +81,28 @@
                                                     <tr>
                                                         <td>Buy</td>
                                                         <td>New</td>
-                                                        <td>$@book.buyNewPrice</td>
+                                                        <td>@to_currency(book.buyNewPrice)</td>
                                                     </tr>
                                                 }
                                                 @if(book.buyUsedPrice != null && book.buyUsedPrice > 0) {
                                                     <tr>
                                                         <td>Buy</td>
                                                         <td>Used</td>
-                                                        <td>$@book.buyUsedPrice</td>
+                                                        <td>@to_currency(book.buyUsedPrice)</td>
                                                     </tr>
                                                 }
                                                 @if(book.rentNewPrice != null && book.rentNewPrice > 0) {
                                                     <tr>
                                                         <td>Rent</td>
                                                         <td>New</td>
-                                                        <td>$@book.rentNewPrice</td>
+                                                        <td>@to_currency(book.rentNewPrice)</td>
                                                     </tr>
                                                 }
                                                 @if(book.rentNewPrice != null && book.rentUsedPrice > 0) {
                                                     <tr>
                                                         <td>Rent</td>
                                                         <td>Used</td>
-                                                        <td>$@book.rentUsedPrice</td>
+                                                        <td>@to_currency(book.rentUsedPrice)</td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -129,13 +133,13 @@
                                                 @if(book.getNewPrice() > 0) {
                                                     <tr>
                                                         <td>New</td>
-                                                        <td>$@book.getNewPrice()</td>
+                                                        <td>@to_currency(book.getNewPrice())</td>
                                                     </tr>
                                                 }
                                                 @if(book.getUsedPrice() > 0) {
                                                     <tr>
                                                         <td>Used</td>
-                                                        <td>$@book.getUsedPrice()</td>
+                                                        <td>@to_currency(book.getUsedPrice())</td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -167,7 +171,7 @@
                                             @for(book <- fBook.getEbayBooks()) {
                                                 <tr>
                                                     <td>@book.getCondition()</td>
-                                                    <td>$@book.getShippedPrice()</td>
+                                                    <td>@to_currency(book.getShippedPrice())</td>
                                                     <td>@book.getListingType()</td>
                                                     <td>@book.getLocation()</td>
                                                 </tr>
