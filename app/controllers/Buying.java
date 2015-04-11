@@ -19,6 +19,7 @@ import views.html.*;
 
 public class Buying extends Controller {
 
+	@Security.Authenticated(Secured.class)
     public static Result buy() {
     	List<Term> terms = Term.findAll();
     	List<Department> departments = Department.findAll();
@@ -28,6 +29,7 @@ public class Buying extends Controller {
         return ok(buy.render(terms, departments, courses, sections));
     }
 
+	@Security.Authenticated(Secured.class)
     public static Result searchByCourse() {
     	DynamicForm requestData = Form.form().bindFromRequest();
         String termId = requestData.get("term");
@@ -49,11 +51,13 @@ public class Buying extends Controller {
         
         return listBooks(JavaConversions.asScalaBuffer(isbns).toList(), courseName, "");
     }
-    
+	
+	@Security.Authenticated(Secured.class)
     public static Result searchByIsbn(String isbn) {
     	return listBooks(JavaConversions.asScalaBuffer(Collections.singletonList(isbn)).toList(), "", isbn);
     }
     
+	@Security.Authenticated(Secured.class)
     public static Result listBooks(scala.collection.immutable.List<String> isbnParam, String courseNumber, String isbn) {
         ArrayList<FederatedBook> fBooks = new ArrayList<>();
 
