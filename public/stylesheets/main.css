@@ -16,6 +16,10 @@ body {
     width: auto;
 }
 
+nav.navbar {
+    margin-bottom: 0px;
+}
+
 footer {
     text-align: center;
     color: #ddd;
@@ -30,7 +34,6 @@ h1.page-header {
 }
 
 .splash-header {
-    margin-top: 50px;   /* hack  */
     padding: 45px 15px;
     background-image: linear-gradient(#185798, #428bca);
     background-repeat: repeat-x;
