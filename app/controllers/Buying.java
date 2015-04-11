@@ -47,14 +47,14 @@ public class Buying extends Controller {
         	isbns.add(book.isbn);
         }
         
-        return listBooks(JavaConversions.asScalaBuffer(isbns).toList(), courseName);
+        return listBooks(JavaConversions.asScalaBuffer(isbns).toList(), courseName, "");
     }
     
     public static Result searchByIsbn(String isbn) {
-    	return listBooks(JavaConversions.asScalaBuffer(Collections.singletonList(isbn)).toList(), "");
+    	return listBooks(JavaConversions.asScalaBuffer(Collections.singletonList(isbn)).toList(), "", isbn);
     }
     
-    public static Result listBooks(scala.collection.immutable.List<String> isbnParam, String courseNumber) {
+    public static Result listBooks(scala.collection.immutable.List<String> isbnParam, String courseNumber, String isbn) {
         ArrayList<FederatedBook> fBooks = new ArrayList<>();
 
         scala.collection.Iterator<String> iterator = isbnParam.iterator();
@@ -63,9 +63,8 @@ public class Buying extends Controller {
         	fBooks.add(new FederatedBook(iterator.next()));
         }
 
-        // todo: set the title string dynamically
         return ok(
-                buyListBooks.render(fBooks, "Required books for '" + courseNumber + "'")
+                buyListBooks.render(fBooks, courseNumber, isbn)
         );
 
     }

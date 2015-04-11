@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 import util.api.EbayBook;
+import util.api.EbaySearchResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.Validate;
@@ -19,9 +20,10 @@ public class EbayApi extends Base {
     public static final String API_KEY = "JoeDolla-b044-4206-bfcb-fa167ed6b37e";
     public static Integer MAX_RESULTS = 5;
 
-    public ArrayList<EbayBook> find(String ISBN) throws IOException {
+    public EbaySearchResult find(String ISBN) throws IOException {
         Document doc = getDocument( searchUrl(ISBN) );
         ArrayList<EbayBook> books = new ArrayList<>();
+        System.out.println( searchUrl(ISBN) );
 
         if (!isSuccess(doc)) {
             throw new RuntimeException("Failed to make API request.  Output was: " +
@@ -34,7 +36,9 @@ public class EbayApi extends Base {
             books.add( parseBook(bookElem) );
         }
 
-        return books;
+        String resultsUrl = getElementText(doc.select("findItemsByProductResponse").get(0), "itemSearchURL");
+
+        return new EbaySearchResult(resultsUrl, books);
     }
 
     private boolean isSuccess(Document doc) {
@@ -51,6 +55,8 @@ public class EbayApi extends Base {
     }
 
     private EbayBook parseBook(Element parent) {
+        String listingType = getElementText(parent, "listingType");
+
         return new EbayBook(
             getElementText(parent, "title"),
             getElementText(parent, "viewitemurl"),
@@ -58,6 +64,7 @@ public class EbayApi extends Base {
             Float.parseFloat(getElementText(parent, "shippingservicecost[currencyid=USD]")),
             getElementText(parent, "conditiondisplayname"),
             getElementText(parent, "galleryurl", false),
-            getElementText(parent, "listingType") == "Auction");
+            getElementText(parent, "location", false),
+            (listingType  == "Auction" || listingType == "AuctionWithBIN") );
     }
 }
