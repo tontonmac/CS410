@@ -7,19 +7,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import models.Course;
-import java.util.ArrayList;
-
-import models.FederatedBook;
-import models.Department;
-import models.Term;
+import models.*;
 import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.data.ParserException;
 import play.cache.Cache;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import views.html.*;
 import net.fortuna.ical4j.model.*;
+import java.lang.Integer;
 
 public class Buying extends Controller {
     public static List<Term> terms = Term.findAll();
@@ -60,16 +55,13 @@ public class Buying extends Controller {
     public static Result uploadSchedule() {
         MultipartFormData body = request().body().asMultipartFormData();
         MultipartFormData.FilePart schedule = body.getFile("uploadSchedule");
-        List<Course> courseList = new ArrayList<Course>();
+        List<String> courseSummaryList = new ArrayList<>();
+        String courseTerm = null;
         if (schedule != null) {
             String fileName = schedule.getFilename();
             String contentType = schedule.getContentType();
             File file = schedule.getFile();
-            String courseName = null;
-            String courseNumber  = null;
-
-            // todo: replace hardcoded CS with parsed dept info
-            Department dept = new Department("Computer Science","CS");
+            String courseSummary;
 
             try {
                 FileInputStream fis = new FileInputStream(file);
@@ -84,25 +76,36 @@ public class Buying extends Controller {
 
                     for (Iterator j = component.getProperties().iterator(); j.hasNext();) {
                         Property property = (Property) j.next();
-                        System.out.println("Property: " + property.getName());
+                        System.out.println("Property: " + property.getName() + " Value: " + property.getValue());
 
-                        // todo: parse our more specific substrings
-                        if(property.getName().equals("DESCRIPTION")){
-                            courseName = property.getValue();
-                        }
                         if(property.getName().equals("SUMMARY")){
-                            courseNumber = property.getValue();
+                            courseSummary = property.getValue();
+                            courseSummaryList.add(courseSummary);
+                        }
+                        if(property.getName().equals("DTSTART")){
+                            courseTerm = property.getValue();
                         }
 
                     }
-                    if(courseName != null && courseNumber != null){
-                        courseList.add(new Course(dept, courseName, courseNumber));
-                    }
+
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            Term currentTerm = findCurrentTerm(courseTerm);
+            List<Course> courseList = new ArrayList<>();
+            List<UMBClass> classList = new ArrayList<>();
+            for(String summary : courseSummaryList) {
+                Department parsedDept = parseDepartment(summary);
+                String parsedCourseNum = parseCourseNumber(summary);
+                Course course = Course.findUnique(parsedDept,parsedCourseNum);
+                String courseSection = parseCourseSection(summary);
+                classList.add(UMBClass.findUnique(currentTerm,course,courseSection));
+                courseList.add(course);
+            }
+
+
 
             Cache.set("user.schedule",courseList);
             return ok(uploadSchedule.render(courseList));
@@ -111,6 +114,28 @@ public class Buying extends Controller {
             flash("error", "Missing file");
             return ok("something went wrong...");
         }
+    }
+
+    public static Department parseDepartment(String summary){
+        return Department.findUnique(summary.split(" ")[0]);
+    }
+
+    public static String parseCourseNumber(String summary){
+        return summary.split(" ")[1].split("-")[0];
+    }
+
+    public static String parseCourseSection(String summary){
+        return summary.split(" ")[1].split("-")[1];
+    }
+
+    public static Term findCurrentTerm(String parsedTerm){
+        if(java.lang.Integer.parseInt(parsedTerm.substring(0, 6)) < 201505) {
+            return Term.findUnique("Spring 2015");
+        }
+        if(java.lang.Integer.parseInt(parsedTerm.substring(0, 6)) < 201509){
+            return Term.findUnique("Summer 2015");
+        }
+        return Term.findUnique("Fall 2015");
     }
 
 
