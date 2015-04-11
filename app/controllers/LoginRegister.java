@@ -7,14 +7,14 @@ import play.mvc.*;
 import views.html.*;
 
 public class LoginRegister extends Controller {
-
 	public static class Login {
 
 	    public String email;
 	    public String password;
 
 	    public String validate() {
-	        if (User.authenticate(email, password) == null) {
+	    	User user = User.authenticate(email, password);
+	        if (user == null) {
 	          return "Invalid user or password";
 	        }
 	        return null;
@@ -34,10 +34,13 @@ public class LoginRegister extends Controller {
             return badRequest(login.render(form));
         } else {
             session().clear();
-            session("email", form.get().email);
+            String email = form.get().email;
+            session("email", email);
+            session("userid", Long.toString(User.findUserByEmail(email).id));
             return redirect(
                 routes.Application.index()
             );
         }
     }
+    
 }
