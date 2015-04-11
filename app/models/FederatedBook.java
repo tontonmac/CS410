@@ -3,6 +3,7 @@ package models;
 import util.api.AmazonApi;
 import util.api.EbayApi;
 import util.api.EbayBook;
+import util.api.EbaySearchResult;
 import util.api.AmazonBook;
 import models.Book;
 
@@ -12,7 +13,7 @@ public class FederatedBook {
     private models.Book bookstoreBook;
     private AmazonBook amazonBook;
     private String isbn;
-    private ArrayList<EbayBook> ebayBooks = new ArrayList<>();
+    private EbaySearchResult ebayResult;
 
     public FederatedBook(String isbn) {
         this.isbn = isbn;
@@ -33,7 +34,7 @@ public class FederatedBook {
 
         EbayApi ebay = new EbayApi();
         try {
-            ebayBooks = ebay.find(isbn);
+            ebayResult = ebay.find(isbn);
         } catch (Exception ex) {
             System.out.println("Failed to make eBay API query: " + ex.toString());
         }
@@ -41,25 +42,25 @@ public class FederatedBook {
     }
 
     public boolean foundBook() {
-        return bookstoreBook != null || amazonBook != null || ebayBooks.size() > 0;
+        return foundAmazonBook() || foundBookstoreBook() || foundEbayBook();
     }
 
     public String getTitle() {
-        if (bookstoreBook != null) {
-            return bookstoreBook.title;
-        } else if (amazonBook != null) {
+        if (foundAmazonBook()) {
             return amazonBook.getTitle();
-        } else if (ebayBooks.size() > 0) {
-            return ebayBooks.get(0).getTitle();
+        } else if (foundBookstoreBook()) {
+            return bookstoreBook.title;
+        } else if (foundEbayBook()) {
+            return getEbayBooks().get(0).getTitle();
         } else {
             return "unknown";
         }
     }
 
     public String getAuthor() {
-        if (bookstoreBook != null) {
+        if (foundBookstoreBook()) {
             return bookstoreBook.author;
-        } else if (amazonBook != null) {
+        } else if (foundAmazonBook()) {
             return amazonBook.getAuthor();
         } else {
             return "unknown";
@@ -71,9 +72,9 @@ public class FederatedBook {
     }
 
     public String getPublisher() {
-        if (bookstoreBook != null) {
+        if (foundBookstoreBook()) {
             return bookstoreBook.publisher;
-        } else if (amazonBook != null) {
+        } else if (foundAmazonBook()) {
             return amazonBook.getPublisher();
         } else {
             return "unknown";
@@ -81,7 +82,7 @@ public class FederatedBook {
     }
 
     public String getCopyrightYear() {
-        if (bookstoreBook != null) {
+        if (foundBookstoreBook()) {
             return bookstoreBook.getCopyrightYear();
         } else {
             return "unknown";
@@ -89,9 +90,9 @@ public class FederatedBook {
     }
 
     public String getEdition() {
-        if (bookstoreBook != null) {
+        if (foundBookstoreBook()) {
             return bookstoreBook.edition;
-        } else if (amazonBook != null) {
+        } else if (foundAmazonBook()) {
             return amazonBook.getEdition();
         } else {
             return "unknown";
@@ -99,7 +100,7 @@ public class FederatedBook {
     }
 
     public String getImageUrl() {
-        if (amazonBook != null) {
+        if (foundAmazonBook()) {
             return amazonBook.getImageUrl();
         } else {
             return "";
@@ -111,7 +112,11 @@ public class FederatedBook {
     }
 
     public ArrayList<EbayBook> getEbayBooks() {
-        return ebayBooks;
+        return ebayResult.getBooks();
+    }
+
+    public String getEbayUrl() {
+        return ebayResult.getUrl();
     }
 
     public AmazonBook getAmazonBook() {
@@ -121,5 +126,10 @@ public class FederatedBook {
     public Book getBookstoreBook() {
         return bookstoreBook;
     }
+
+
+    public Boolean foundAmazonBook() { return amazonBook != null; }
+    public Boolean foundBookstoreBook() { return bookstoreBook != null; }
+    public Boolean foundEbayBook() { return ebayResult != null && getEbayBooks().size() > 0; }
 
 }

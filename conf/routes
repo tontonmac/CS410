@@ -10,7 +10,7 @@ GET        /login               controllers.LoginRegister.login()
 
 # Buy
 GET        /buy                 controllers.Buying.buy()
-GET		   /buy/books           controllers.Buying.listBooks(isbnParam: scala.collection.immutable.List[String], courseNumber: String)
+GET		   /buy/books           controllers.Buying.listBooks(isbnParam: scala.collection.immutable.List[String], courseNum: String, isbn: String)
 POST       /buy/searchByCourse  controllers.Buying.searchByCourse()
 GET       /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
 
