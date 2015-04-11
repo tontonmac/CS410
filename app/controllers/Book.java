@@ -14,7 +14,7 @@ public class Book extends Controller {
         return ok(editBook.render());
     }
 
-    public static Result showBook() {
+    public static Result showBook(Long bookId) {
         return ok(showBook.render());
     }
     

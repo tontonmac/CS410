@@ -67,6 +67,14 @@ h1.page-header {
 }
 
 /* book buying page styles */
+.buy_list_books h3 {
+    margin: 20px 0 20px 0;
+}
+
+.buy_list_books .local_listings_wrap {
+    margin: 20px 0 40px 0;
+}
+
 .buy_list_books .book_seller {
     padding: 20px 0 20px 0;
     border-bottom: 1px solid #eee;

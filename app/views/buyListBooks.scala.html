@@ -8,7 +8,7 @@
         <img class="img-responsive logo" src="@seller_img_url">
     </div>
     <div class="col-xs-10">
-        <div class="alert alert-warning"><strong>Oh snap!</strong> No results found</div>
+        <div class="alert alert-warning">No results found</div>
     </div>
 }
 
@@ -57,8 +57,37 @@
                             }
                         </table>
 
-                        <h3>Available From</h3>
+                        <h3>Local Listings</h3>
+                        <div class="local_listings_wrap">
+                            @if(fBook.foundLocalResult) {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Condition</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    <thead>
+                                    <tbody>
+                                        @for(localResult <- fBook.getLocalResults()) {
+                                          <tr>
+                                              <td>@localResult.conditionName()</td>
+                                              <td>@to_currency(localResult.price)</td>
+                                              <td>@localResult.description</td>
+                                              <td>
+                                                <a class="btn btn-default btn-xs center-block" href="@routes.Book.showBook(localResult.id)" role="button" target="_blank">View »</a>
+                                              </td>
+                                          </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            } else {
+                                <div class="alert alert-warning">No copies available from local sellers</div>
+                            }
+                        </div>
 
+                        <h3>Store Listings</h3>
                         <div class="row book_seller">
                             @if(fBook.foundBookstoreBook()) {
                                 @defining(fBook.getBookstoreBook) { book =>
@@ -126,7 +155,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Condition</th>
-                                                    <th>Price</th>
+                                                    <th>Price (excluding shipping)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

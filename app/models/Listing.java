@@ -42,11 +42,19 @@ public class Listing extends Model {
     
     @OneToOne
     @JoinColumn(name = "book_condition_id", referencedColumnName = "id")
-    public Condition condition;    
+    public Condition condition;
+
+    public String conditionName() {
+        return condition.name;
+    }
     
     public static Finder<Long,Listing> find = new Finder<Long,Listing>(Long.class, Listing.class);
     
     public static List<Listing> findListingsBySeller(String listedBy) {
         return find.where().eq("listed_by_id", listedBy).findList();
+    }
+
+    public static List<Listing> findByIsbn(String isbn) {
+        return find.where().eq("isbn", isbn).findList();
     }
 }

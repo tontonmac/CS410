@@ -18,7 +18,7 @@ GET       /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
 # Book controller
 GET        /book/new            controllers.Book.newBook()
 GET        /book/edit           controllers.Book.editBook()
-GET        /book/show           controllers.Book.showBook()
+GET        /book/show           controllers.Book.showBook(id: Long)
 GET		   /book/delete         controllers.Book.deleteBook()
 
 # Support

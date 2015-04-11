@@ -36,3 +36,17 @@ insert into required_book(class_id,book_id) values (3, 2);
 insert into required_book(class_id,book_id) values (4, 1);
 insert into required_book(class_id,book_id) values (5, 1);
 
+insert into book_condition(id,name) values (1, 'Poor');
+insert into book_condition(id,name) values (2, 'Acceptable');
+insert into book_condition(id,name) values (3, 'Good');
+insert into book_condition(id,name) values (4, 'Very Good');
+insert into book_condition(id,name) values (5, 'Like New');
+
+insert into user(id,email,password,first_name,last_name) values (1,'testuser@umb.edu', 'f1d2d2f924e986ac86fdf7b36c94bcdf32beec15', 'Randolph', 'Frank');
+insert into user(id,email,password,first_name,last_name) values (2,'testuser2@umb.edu', 'dc1f9d7162ed4238b54a5e5b521873fa51238d6d', 'Wendy', 'Smith');
+
+insert into book_listing(id,listed_by_id,description,price,title,author,isbn, book_condition_id) values
+  (1,1,'A small number of pages have notes in the margin, but otherwise in very good condition', 3.50, 'Things Fall Apart', 'Achebe', '9780385474542', 4);
+insert into book_listing(id,listed_by_id,description,price,title,author,isbn,book_condition_id) values
+  (2,2,'I didn''t end up even opening this book once', 5.00, 'Things Fall Apart', 'Achebe', '9780385474542', 5);
+

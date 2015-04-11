@@ -8,23 +8,27 @@ import util.api.AmazonBook;
 import models.Book;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FederatedBook {
     private models.Book bookstoreBook;
     private AmazonBook amazonBook;
     private String isbn;
     private EbaySearchResult ebayResult;
+    private List<Listing> localResults;
+
 
     public FederatedBook(String isbn) {
         this.isbn = isbn;
         bookstoreBook = models.Book.findUnique(isbn);
+        localResults = Listing.findByIsbn(isbn);
 
         AmazonApi az = new AmazonApi();
         try {
             ArrayList<AmazonBook> amazonBooks = az.find(isbn);
 
-            // TODO: we always take the first book for now.  Secondary
-            // are likely to be just kindle books (is this true?)
+            // the first book corresponds to a physical book, while later ones (if any) correspond to kindle, we
+            // should probably enforce this through code at some point
             if (amazonBooks.size() > 0) {
                 amazonBook = amazonBooks.get(0);
             }
@@ -38,7 +42,6 @@ public class FederatedBook {
         } catch (Exception ex) {
             System.out.println("Failed to make eBay API query: " + ex.toString());
         }
-
     }
 
     public boolean foundBook() {
@@ -127,9 +130,11 @@ public class FederatedBook {
         return bookstoreBook;
     }
 
+    public List<Listing> getLocalResults() { return localResults; }
 
     public Boolean foundAmazonBook() { return amazonBook != null; }
     public Boolean foundBookstoreBook() { return bookstoreBook != null; }
     public Boolean foundEbayBook() { return ebayResult != null && getEbayBooks().size() > 0; }
+    public Boolean foundLocalResult() { return localResults != null && localResults.size() > 0; }
 
 }
