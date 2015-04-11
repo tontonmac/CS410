@@ -10,6 +10,11 @@
 
 
 <div class="container">
+@if(flash.contains("success")) {
+    <p class="success">
+        @flash.get("success")
+    </p>
+}
     <div class="row">
         <div class="col-sm-4 col-sm-offset-1">
             <h2>Login</h2>

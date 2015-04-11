@@ -40,4 +40,5 @@ public class LoginRegister extends Controller {
             );
         }
     }
+    
 }
