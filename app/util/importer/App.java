@@ -11,6 +11,10 @@ public class App {
 
     public App(String termStr) {
         term = Term.findUnique(termStr);
+
+        if (term == null) {
+            throw new RuntimeException("Term '" + termStr + "' does not exist");
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -34,9 +38,9 @@ public class App {
             if ( r.isImportable() ) {
                 try {
                     toImport.addAll( r.importer().performImport() );
-                } catch (IOException e) {
-                    System.err.println("Failed to import resource from url " +
-                            r.getUrl() + ". Error: " + e.toString() );
+                } catch (Exception e) {
+                    System.err.println("Failed to import resource from url: " + r.getUrl());
+                    e.printStackTrace();
                 }
             }
         }

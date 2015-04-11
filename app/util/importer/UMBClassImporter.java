@@ -64,7 +64,7 @@ public class UMBClassImporter extends Base {
 
     private Resource<UMBClass> buildResource(String section, String instructor) {
         UMBClass umbClass = UMBClass.findOrCreate(term, course, section, instructor);
-        return new Resource<UMBClass>(umbClass, null, department, term, course, null);
+        return new Resource<UMBClass>(umbClass, null, department, term, course, umbClass);
     }
 
     // determine if the table is parseable based on a header row

@@ -29,6 +29,10 @@ public class Resource<T extends Model> {
         return url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Term getTerm() {
         return term;
     }
@@ -58,20 +62,30 @@ public class Resource<T extends Model> {
     }
 
     public boolean isImportable() {
-        return importer() != null;
+        try {
+            return importer() != null;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     // importer factory - returns an instance of an Importer class that can
     // import the url that this resource references
     public Base importer() {
-        if (getUrl() == null || getModel() == null) {
+        if (getModel() == null) {
+            return null;
+        } else if (getModel() instanceof UMBClass) {
+            // the book importer is a special case in that it determines
+            // the URL itself
+            return new BookImporter(getTerm(), this.getUMBClass());
+        } else if (getUrl() == null) {
             return null;
         } else if (getModel() instanceof Department) {
             return new CourseImporter(this);
         } else if (getModel() instanceof Course) {
             return new UMBClassImporter(this);
         } else if (getModel() instanceof UMBClass) {
-            return null;
+            return new BookImporter(getTerm(), this.getUMBClass());
         } else {
             throw new RuntimeException("No importer exists for " +
                     getModel().getClass().toString() );

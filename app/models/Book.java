@@ -38,9 +38,12 @@ public class Book extends Model {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
-        this.copyrightDate = new java.sql.Date(copyrightDate.getTime());
         this.publisher = publisher;
         this.edition = edition;
+
+        if (copyrightDate != null) {
+            this.copyrightDate = new java.sql.Date(copyrightDate.getTime());
+        }
     }
 
     public String bookstoreUrl() {
@@ -51,7 +54,7 @@ public class Book extends Model {
 
     public String getCopyrightYear() {
         if (copyrightDate == null) {
-            return "unknown";
+            return null;
         } else {
             Calendar cal = Calendar.getInstance();
             cal.setTime(copyrightDate);

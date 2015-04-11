@@ -17,6 +17,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/*
+ There are a number of potential improvements that could be made here going forward:
+   * include books that are recommended, but not required
+   * include the digital book prices, where they exist
+   * support the case where the course required one of a set of books (i.e. "pick from these two books").
+     You can see an example of this at: http://www.bkstr.com/webapp/wcs/stores/servlet/booklookServlet%20?bookstore_id-1=530&term_id-1=2430&div-1=&dept-1=BIOL&course-1=208&section-1=02
+
+  It'd also be super awesome to get the official list of required books directly from UMass, rather than going through the bookstore.  Perhaps we could request this somehow?
+*/
+
 public class BookImporter extends Base {
     private final static String bookstoreId = "530";
     private static final String REQUIRED_BOOKS_SELECTOR = "#material-group_REQUIRED > div > ul > li";
@@ -42,6 +52,10 @@ public class BookImporter extends Base {
     private UMBClass umbClass;
     private String url;
 
+    public BookImporter(Resource r) {
+        this( r.getTerm(), r.getUMBClass() );
+    }
+
     public BookImporter(Term term, UMBClass umbClass) {
         this(umbClass, bookstoreUrl(term, umbClass) );
     }
@@ -52,16 +66,15 @@ public class BookImporter extends Base {
     }
 
 
-    public BookImporter(Resource r) {
-        this(r.getUMBClass(), r.getUrl());
-    }
-
     public static String bookstoreUrl(Term term, UMBClass umbClass) {
-        String baseUrl = "http://www.bkstr.com/webapp/wcs/stores/servlet/booklookServlet%20?" +
+        if (umbClass.department() == null) {
+            throw new RuntimeException("Unable to import resource - department doesn't exist");
+        }
+
+        return "http://www.bkstr.com/webapp/wcs/stores/servlet/booklookServlet%20?" +
                 "bookstore_id-1=" + bookstoreId + "&term_id-1=" + term.bookstoreId() + "&" +
                 "div-1=&dept-1=" + umbClass.department().shortName + "&" +
                 "course-1=" + umbClass.course.number + "&section-1=" + umbClass.sectionNumber;
-        return baseUrl;
     }
 
     // import all required and recommended books for a class, along with their
@@ -118,31 +131,26 @@ public class BookImporter extends Base {
 
             Elements cols = priceRow.getElementsByTag("td");
             String bookType = cols.get(BOOK_TYPE_COL).text();
-            if (!isSupportedBookType(bookType)) {
-                System.out.println("skipping unsupported book type of " + bookType);
-                continue;
-            }
 
             String orderOption = cols.get(ORDER_OPTION_COL).text();
             String orderType = cols.get(ORDER_TYPE_COL).text();
             Double price = moneyToDouble(cols.get(PRICE_COL).text());
 
+            // some books have prices for both digital and paper formats.  We simply
+            // take the first price we see here (which _should_ correspond to a paper format).
+            // We may wish to refine this further in the future
             if (orderType.contains(TYPE_BUY)) {
-                if (orderOption.contains(OPTION_USED)) {
+                if (orderOption.contains(OPTION_USED) && book.buyUsedPrice == 0) {
                     book.buyUsedPrice = price;
-                } else if (orderOption.contains(OPTION_NEW)) {
+                } else if (orderOption.contains(OPTION_NEW) && book.buyNewPrice == 0) {
                     book.buyNewPrice = price;
-                } else {
-                    System.out.println("skipping order option of " + orderOption);
-                }
+                } 
             } else if (orderType.contains(TYPE_RENT)) {
-                if (orderOption.contains(OPTION_USED)) {
+                if (orderOption.contains(OPTION_USED) && book.rentUsedPrice == 0) {
                     book.rentUsedPrice = price;
-                } else if (orderOption.contains(OPTION_NEW)) {
+                } else if (orderOption.contains(OPTION_NEW) && book.rentNewPrice == 0) {
                     book.rentNewPrice = price;
-                } else {
-                    System.out.println("skipping order option of " + orderOption);
-                }
+                } 
             } else {
                 System.out.println("skipping unrecognized order type of " + orderType);
             }
@@ -161,13 +169,13 @@ public class BookImporter extends Base {
         }
     }
 
-    private Boolean isSupportedBookType(String bookType) {
-        return bookType.contains("PAPERBACK") ||
-            bookType.contains("Spiral");
-    }
-
     private Resource<Book> buildResource(String title, String author, String isbn, Date copyrightYear, String publisher, String edition) {
-        java.sql.Date sqlDate = new java.sql.Date(copyrightYear.getTime());
+        java.sql.Date sqlDate = null;
+
+        if (copyrightYear != null) {
+            sqlDate = new java.sql.Date(copyrightYear.getTime());
+        } 
+
         Book book = Book.findOrCreate(title, author, isbn, sqlDate, publisher, edition);
         return new Resource<Book>(book, null, null, null, null, umbClass);
     }
@@ -206,8 +214,14 @@ public class BookImporter extends Base {
     }
 
     private Date parseCopyrightYear(Element parentElement) {
-        String dateStr = getStringOfDecoratedElement(
-            parentElement, "copyright year", "#materialCopyrightYear");
+        String dateStr = null;
+
+        try {
+            getStringOfDecoratedElement(parentElement, "copyright year", "#materialCopyrightYear");
+        } catch (Exception ex) {
+            // not all books have a copyright year element
+            return null;
+        }
 
         if (dateStr == null) {
             return null;
@@ -247,16 +261,16 @@ public class BookImporter extends Base {
 
     // determine if the table is parseable based on a header row
     private boolean canParsePriceTable(Element headerRow) {
-        //try {
+        try {
             Elements cols = headerRow.getElementsByTag("th");
             return
                 cols.get(BOOK_TYPE_COL).text().contains("Type") &&
                 cols.get(ORDER_TYPE_COL).text().contains("Buy") &&
                 cols.get(ORDER_OPTION_COL).text().contains("Option") &&
                 cols.get(PRICE_COL).text().contains("Price");
-        //} catch (Exception ex) {
-        //    return false;
-        //}
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
 }
