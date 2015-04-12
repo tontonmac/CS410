@@ -2,9 +2,8 @@ package controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import models.*;
@@ -44,22 +43,23 @@ public class Buying extends Controller {
 
     public static Result schedule(){
         //todo: use the User model to grab the schedule or cache it?
-        List<Course> cacheSchedule = (List<Course>) Cache.get("user.schedule");
+        HashMap<Course,UMBClass> courseAndClass = (HashMap<Course,UMBClass>) Cache.get("user.classes");
 
-        if(cacheSchedule.equals(null)){
+        if(courseAndClass.equals(null)){
             return redirect("/buy");
         }
-        return ok(uploadSchedule.render(cacheSchedule));
+        return ok(uploadSchedule.render(courseAndClass));
     }
 
     public static Result uploadSchedule() {
         MultipartFormData body = request().body().asMultipartFormData();
         MultipartFormData.FilePart schedule = body.getFile("uploadSchedule");
         List<String> courseSummaryList = new ArrayList<>();
+        List<Course> courseList = new ArrayList<>();
+        List<UMBClass> classList = new ArrayList<>();
         String courseTerm = null;
+
         if (schedule != null) {
-            String fileName = schedule.getFilename();
-            String contentType = schedule.getContentType();
             File file = schedule.getFile();
             String courseSummary;
 
@@ -93,22 +93,30 @@ public class Buying extends Controller {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             Term currentTerm = findCurrentTerm(courseTerm);
-            List<Course> courseList = new ArrayList<>();
-            List<UMBClass> classList = new ArrayList<>();
+            HashMap<Course,UMBClass> courseAndClassList = new HashMap<>();
             for(String summary : courseSummaryList) {
                 Department parsedDept = parseDepartment(summary);
                 String parsedCourseNum = parseCourseNumber(summary);
                 Course course = Course.findUnique(parsedDept,parsedCourseNum);
                 String courseSection = parseCourseSection(summary);
-                classList.add(UMBClass.findUnique(currentTerm,course,courseSection));
+                classList.add(UMBClass.findUnique(currentTerm, course, courseSection));
                 courseList.add(course);
+                courseAndClassList.put(course,UMBClass.findUnique(currentTerm,course,courseSection));
             }
 
+            // Add test Chemistry course here
+            Department testDept = Department.findUnique("CHEM");
+            Course testCourse = Course.findUnique(testDept,"130");
+            UMBClass testClass = UMBClass.findUnique(currentTerm,testCourse,"01");
+            courseAndClassList.put(testCourse,testClass);
+            courseList.add(testCourse);
 
 
             Cache.set("user.schedule",courseList);
-            return ok(uploadSchedule.render(courseList));
+            Cache.set("user.classes",courseAndClassList);
+            return ok(uploadSchedule.render(courseAndClassList));
         } else {
             // todo: need better error handling for wrong file extensions
             flash("error", "Missing file");

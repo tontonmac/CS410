@@ -1,4 +1,4 @@
-@(courses: List[Course])
+@(classMap: Map[Course,UMBClass])
 
 @main("UMBooks"){
     <div class="jumbotron splash-header">
@@ -9,18 +9,23 @@
         </div>
     </div>
     <div class="container">
-        <h2>@courses.size() Courses successfully uploaded from class schedule:</h2>
+        <h2>@classMap.size Courses successfully uploaded from class schedule:</h2>
         <div class="row">
-                @for(course <- courses) {
+                @for((key,value) <- classMap) {
                     <div class="course-tile">
                         <div id="box">
-                            <p>@course.name</p>
-                            <p>@course.department</p>
-                            <p>@course.number</p>
-                        <button type="submit" class="btn btn-primary @course.name">Find Books</button>
+                            <p>@key.name</p>
+                            <p>@key.department</p>
+                            <p>@key.number</p>
+                            <p>@value.toString</p>
+                            @for(book <- value.books){
+                                <p>@book.title</p>
+                            }
+                        <button type="submit" class="btn btn-primary">Find Books</button>
                         </div>
                     </div>
                 }
         </div>
+
     </div>
 }
