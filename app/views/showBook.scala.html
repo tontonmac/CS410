@@ -1,40 +1,47 @@
+@(listing: List[Listing])
+
 @main("UMBooks") {
     <div class="container">
+    <h2>Seller listings</h2>
+    <form action="/book/show" method="get">
+    	<div class="form-group">
         <div class="row">
             <div class="col-sm-2">
                 <img src="" alt=""  class="img-thumbnail">
             </div>
-
+			@for(book <- Book) {
+			
             <div class="col-sm-10">
-                <h1>Book title</h1>
+                <h1>Book title</h1><header>@book.getTitle</header>
                 <table class="tbl_dl">
                     <tr>
-                        <td>Author</td><td>Jane Doe</td>
+                        <td>Author</td><td>@book.getAuthor</td>
                     </tr>
                     <tr>
-                        <td>Edition</td><td>2nd</td>
+                        <td>Edition</td><td>@book.getEDition</td>
                     </tr>
                     <tr>
-                        <td>ISBN</td><td>039592720</td>
+                        <td>ISBN</td><td>@book.getIsbn</td>
                     </tr>
                     <tr>
-                        <td>Publisher</td><td>Smart Press</td>
+                        <td>Publisher</td><td>@book.getPublisher</td>
                     </tr>
                     <tr>
-                        <td>Copyright Year</td><td>2012</td>
+                        <td>Copyright Year</td><td>@book.getYear</td>
                     </tr>
                     <tr>
-                        <td>Condition</td><td>Excellent</td>
+                        <td>Condition</td><td>@book.getCondition</td>
                     </tr>
                     <tr>
-                        <td>Price</td><td>$45</td>
+                        <td>Price</td><td>@book.getPrice</td>
                     </tr>
                     <tr>
-                        <td>Description</td>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+                        <td>Description</td> <td>@book.getDescription</td>
                     </tr>
                 </table>
-
+                </div>
+                }
+		</form>
                 <div class="row">
                     <div class="col-sm-8">
                         <h2>Contact Seller</h2>

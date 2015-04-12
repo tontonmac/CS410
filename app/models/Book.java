@@ -105,6 +105,10 @@ public class Book extends Model {
     public static Book findUnique(String isbn) {
         return find.where().eq("isbn", isbn).findUnique();
     }
+    
+//    public static List<Book> findAll() {
+//        return Book.find.all();
+//    }
 
     public static Finder<Long,Book> find = new Finder<Long,Book>(Long.class, Book.class);
 }
