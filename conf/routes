@@ -17,10 +17,10 @@ POST       /buy/searchByCourse  controllers.Buying.searchByCourse()
 GET       /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
 
 # Book controller
-GET        /book/new            controllers.Book.newBook()
-GET        /book/edit           controllers.Book.editBook()
-GET        /book/show           controllers.Book.showBook(id: Long)
-GET		   /book/delete         controllers.Book.deleteBook()
+GET        /book/new            controllers.BookController.newBook()
+GET        /book/edit           controllers.BookController.editBook()
+GET        /book/show           controllers.BookController.showBook(id: Long)
+GET		   /book/delete         controllers.BookController.deleteBook()
 
 # Support
 GET        /support             controllers.Support.support()

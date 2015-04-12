@@ -1,4 +1,4 @@
-@(listing: List[Listing])
+@(book: Book)
 
 @main("UMBooks") {
     <div class="container">
@@ -9,38 +9,35 @@
             <div class="col-sm-2">
                 <img src="" alt=""  class="img-thumbnail">
             </div>
-			@for(book <- Book) {
-			
             <div class="col-sm-10">
-                <h1>Book title</h1><header>@book.getTitle</header>
+                <h1>Book title</h1><header>book.getTitle</header>
                 <table class="tbl_dl">
                     <tr>
-                        <td>Author</td><td>@book.getAuthor</td>
+                        <td>Author</td><td>book.getAuthor</td>
                     </tr>
                     <tr>
-                        <td>Edition</td><td>@book.getEDition</td>
+                        <td>Edition</td><td>book.getEDition</td>
                     </tr>
                     <tr>
-                        <td>ISBN</td><td>@book.getIsbn</td>
+                        <td>ISBN</td><td>book.getIsbn</td>
                     </tr>
                     <tr>
-                        <td>Publisher</td><td>@book.getPublisher</td>
+                        <td>Publisher</td><td>book.getPublisher</td>
                     </tr>
                     <tr>
-                        <td>Copyright Year</td><td>@book.getYear</td>
+                        <td>Copyright Year</td><td>book.getYear</td>
                     </tr>
                     <tr>
-                        <td>Condition</td><td>@book.getCondition</td>
+                        <td>Condition</td><td>book.getCondition</td>
                     </tr>
                     <tr>
-                        <td>Price</td><td>@book.getPrice</td>
+                        <td>Price</td><td>book.getPrice</td>
                     </tr>
                     <tr>
-                        <td>Description</td> <td>@book.getDescription</td>
+                        <td>Description</td> <td>book.getDescription</td>
                     </tr>
                 </table>
                 </div>
-                }
 		</form>
                 <div class="row">
                     <div class="col-sm-8">
