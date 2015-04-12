@@ -26,13 +26,13 @@ public class Book extends Model {
     @Column(name = "copyright_date")
     public java.sql.Date copyrightDate;
     @Column(name = "buy_new_price")
-    public double buyNewPrice;
+    public Double buyNewPrice;
     @Column(name = "buy_used_price")
-    public double buyUsedPrice;
+    public Double buyUsedPrice;
     @Column(name = "rent_new_price")
-    public double rentNewPrice;
+    public Double rentNewPrice;
     @Column(name = "rent_used_price")
-    public double rentUsedPrice;
+    public Double rentUsedPrice;
 
     public Book(String title, String author, String isbn, Date copyrightDate, String publisher, String edition) {
         this.title = title;
@@ -84,10 +84,10 @@ public class Book extends Model {
     }
 
     public void resetPrices() {
-        this.buyNewPrice = 0;
-        this.buyUsedPrice = 0;
-        this.rentNewPrice = 0;
-        this.rentUsedPrice = 0;
+        this.buyNewPrice = 0.0;
+        this.buyUsedPrice = 0.0;
+        this.rentNewPrice = 0.0;
+        this.rentUsedPrice = 0.0;
     }
 
     public static Book findUnique(String title, String author, String publisher, java.sql.Date copyrightDate) {

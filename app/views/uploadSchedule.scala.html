@@ -15,13 +15,13 @@
                     <div class="course-tile">
                         <div id="box">
                             <p>@key.name</p>
-                            <p>@key.department</p>
-                            <p>@key.number</p>
-                            <p>@value.toString</p>
-                            @for(book <- value.books){
-                                <p>@book.title</p>
-                            }
-                        <button type="submit" class="btn btn-primary">Find Books</button>
+                            <p>@key.department - @key.number</p>
+                            <p>Books:</p>
+                                @for(books <- value.books) {
+                                    <p>@books.title</p>
+                                    <p>@books.author</p>
+                                    <a href="@routes.Buying.listBooks(value.term.name, key.department.toString(), key.number, value.id,value.sectionNumber)" class="btn btn-primary">Buy</a>
+                                }
                         </div>
                     </div>
                 }

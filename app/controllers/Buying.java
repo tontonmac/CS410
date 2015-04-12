@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import models.*;
+import models.Book;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import play.cache.Cache;
 import play.mvc.*;
@@ -23,20 +24,29 @@ public class Buying extends Controller {
         return ok(buy.render(terms, departments));
     }
 
-    public static Result listBooks() {
-        // todo: replace this static isbn with a real one
+    public static Result listBooks(String term, String dept, String courseNum, Long classId, String section) {
+
+        Term tempTerm = Term.findUnique(term);
+        dept = dept.substring(dept.indexOf("[")+1,dept.indexOf("]"));
+        Department tempDept = Department.findUnique(dept);
+        Course tempCourse = Course.findUnique(tempDept,courseNum);
+        UMBClass umbClass = UMBClass.findUnique(tempTerm, tempCourse, section);
+
         ArrayList<String> isbns = new ArrayList<>();
-        isbns.add("9780393123678");
+        for(Book b : umbClass.books){
+            isbns.add(b.isbn.replace("-",""));
+        }
+        //isbns.add("9780393123678");
 
         ArrayList<FederatedBook> fBooks = new ArrayList<>();
 
-        for (String isbn : isbns) {
-            fBooks.add( new FederatedBook(isbn) );
+        for (String i : isbns) {
+            fBooks.add( new FederatedBook(i) );
         }
+        String requiredText = "Required books for " + dept + " " + courseNum;
 
-        // todo: set the title string dynamically
         return ok(
-                buyListBooks.render(fBooks, "Required books for 'CS-101'")
+                buyListBooks.render(fBooks, requiredText)
         );
 
     }
@@ -100,20 +110,25 @@ public class Buying extends Controller {
                 Department parsedDept = parseDepartment(summary);
                 String parsedCourseNum = parseCourseNumber(summary);
                 Course course = Course.findUnique(parsedDept,parsedCourseNum);
+                course.department = parsedDept;
                 String courseSection = parseCourseSection(summary);
-                classList.add(UMBClass.findUnique(currentTerm, course, courseSection));
+                UMBClass umbClass = UMBClass.findUnique(currentTerm, course, courseSection);
+                umbClass.term = currentTerm;
+                classList.add(umbClass);
                 courseList.add(course);
-                courseAndClassList.put(course,UMBClass.findUnique(currentTerm,course,courseSection));
+                courseAndClassList.put(course,umbClass);
             }
 
             // Add test Chemistry course here
             Department testDept = Department.findUnique("CHEM");
             Course testCourse = Course.findUnique(testDept,"130");
+            testCourse.department = testDept;
             UMBClass testClass = UMBClass.findUnique(currentTerm,testCourse,"01");
+            testClass.term = currentTerm;
             courseAndClassList.put(testCourse,testClass);
             courseList.add(testCourse);
 
-
+            // todo: replace the cache with the user session
             Cache.set("user.schedule",courseList);
             Cache.set("user.classes",courseAndClassList);
             return ok(uploadSchedule.render(courseAndClassList));

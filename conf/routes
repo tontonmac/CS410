@@ -12,7 +12,7 @@ GET         /login                     controllers.LoginRegister.login()
 GET         /buy                       controllers.Buying.buy()
 POST        /buy/uploadSchedule        controllers.Buying.uploadSchedule()
 GET         /buy/uploadSchedule        controllers.Buying.schedule()
-GET         /buy/books                 controllers.Buying.listBooks()
+GET         /buy/books                 controllers.Buying.listBooks(term: String, dept: String, courseNum: String, classId: Long, section: String)
 
 # Book controller
 GET         /book/new                  controllers.Book.newBook()
