@@ -3,30 +3,32 @@
 # ~~~~
 
 # Home page
-GET        /                    controllers.Application.index()
+GET         /                          controllers.Application.index()
 GET     /logout                 controllers.Application.logout()
 
 # Login Register
-GET        /login               controllers.LoginRegister.login()
-POST    /login                  controllers.LoginRegister.authenticate()
+GET         /login                     controllers.LoginRegister.login()
+POST        /login                  controllers.LoginRegister.authenticate()
 
 # Buy
-GET        /buy                 controllers.Buying.buy()
-GET		   /buy/books           controllers.Buying.listBooks(isbnParam: scala.collection.immutable.List[String], courseNum: String, isbn: String)
-POST       /buy/searchByCourse  controllers.Buying.searchByCourse()
-GET       /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
+GET         /buy                       controllers.Buying.buy()
+GET         /buy/books           controllers.Buying.listBooks(isbnParam: scala.collection.immutable.List[String], courseNum: String, isbn: String)
+POST        /buy/searchByCourse  controllers.Buying.searchByCourse()
+GET         /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
+POST        /buy/uploadSchedule        controllers.Buying.uploadSchedule()
+GET         /buy/uploadSchedule        controllers.Buying.schedule()
 
 # Book controller
 GET        /book/new            controllers.BookController.newBook()
 GET        /book/edit           controllers.BookController.editBook()
 GET        /book/show           controllers.BookController.showBook(id: Long)
-GET		   /book/delete         controllers.BookController.deleteBook()
+GET        /book/delete         controllers.BookController.deleteBook()
 
 # Support
-GET        /support             controllers.Support.support()
+GET         /support                   controllers.Support.support()
 
 # Listings
-GET     /listings                      controllers.Selling.listings()
+GET         /listings                  controllers.Selling.listings()
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file              controllers.Assets.at(path="/public", file)
