@@ -28,20 +28,20 @@ public class Book extends Controller {
 	@Security.Authenticated(Secured.class)
     public static Result showBook(Long bookId) {
 		
-//		
-//		DynamicForm requestData = Form.form().bindFromRequest();
-//		
-//		String id = requestData.get("book_listing");
-//		
-//		List<Listing> sellerlisting = Listing.findListingsBySeller(id);
-//		
-//		List<Listing> list = Book.find(Listing.class)
-//					.join("user")
-//					.where()
-//					.gt("id", 0)
-//					.eq("book_listing", models.Listing.id)
-//					.findList();
-//			System.out.println(list);
+		
+		DynamicForm requestData = Form.form().bindFromRequest();
+		
+		String id = requestData.get("book_listing");
+		
+		List<Listing> sellerlisting = Listing.findListingsBySeller(id);
+		
+		List<Listing> list = Book.find(Listing.class)
+					.join("user")
+					.where()
+					.gt("id", 0)
+					.eq("book_listing", models.Listing.id)
+					.findList();
+			System.out.println(list);
 		return ok(showBook(Long).render());
     }
     
