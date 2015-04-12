@@ -20,7 +20,7 @@
                                 @for(books <- value.books) {
                                     <p>@books.title</p>
                                     <p>@books.author</p>
-                                    <a href="@routes.Buying.listBooks(value.term.name, key.department.toString(), key.number, value.id,value.sectionNumber)" class="btn btn-primary">Buy</a>
+                                    <a href="@routes.Buying.searchBySchedule(value.term.name, key.department.toString(), key.number, value.id,value.sectionNumber)" class="btn btn-primary">Buy</a>
                                 }
                         </div>
                     </div>

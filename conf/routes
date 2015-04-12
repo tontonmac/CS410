@@ -17,6 +17,7 @@ POST        /buy/searchByCourse  controllers.Buying.searchByCourse()
 GET         /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
 POST        /buy/uploadSchedule        controllers.Buying.uploadSchedule()
 GET         /buy/uploadSchedule        controllers.Buying.schedule()
+GET         /buy/searchBySchedule                controllers.Buying.searchBySchedule(term: String, dept: String, courseNum: String, classId: Long, section: String)
 
 # Book controller
 GET        /book/new            controllers.BookController.newBook()

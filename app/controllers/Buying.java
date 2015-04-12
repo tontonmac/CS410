@@ -20,6 +20,7 @@ import play.mvc.*;
 import play.mvc.Http.Request;
 import play.mvc.Http.MultipartFormData;
 import scala.collection.JavaConversions;
+import scala.collection.immutable.Map;
 import views.html.*;
 import net.fortuna.ical4j.model.*;
 import java.lang.Integer;
@@ -43,22 +44,19 @@ public class Buying extends Controller {
         String departmentId = requestData.get("department");
         String courseId = requestData.get("course");
         String section = requestData.get("section");
-        
+        List<String> isbns = new ArrayList<String>();
         UMBClass c = UMBClass.findUnique(Term.findById(Long.parseLong(termId)), Course.findById(Long.parseLong(courseId)), section);
         List<models.Book> books = c.books;
-            isbns.add(b.isbn.replace("-",""));
+        for(models.Book book : books) {
+            isbns.add(book.isbn);
         }
         //isbns.add("9780393123678");
         
         String courseName = Course.findById(Long.parseLong(courseId)).name;
-        
-        List<String> isbns = new ArrayList<String>();
-        
         StringBuilder sb = new StringBuilder();
         for (Book book : books) {
-        	isbns.add(book.isbn);
-        }
-        
+		    isbns.add(book.isbn);
+	    }
         return listBooks(JavaConversions.asScalaBuffer(isbns).toList(), courseName, "");
     }
 	
@@ -76,7 +74,6 @@ public class Buying extends Controller {
         while(iterator.hasNext()) {
         	fBooks.add(new FederatedBook(iterator.next()));
         }
-        String requiredText = "Required books for " + dept + " " + courseNum;
 
         return ok(
                 buyListBooks.render(fBooks, courseNumber, isbn)
@@ -84,7 +81,7 @@ public class Buying extends Controller {
 
     }
     
-     public static Result listBooks(String term, String dept, String courseNum, Long classId, String section) {
+     public static Result searchBySchedule(String term, String dept, String courseNum, Long classId, String section) {
 
         Term tempTerm = Term.findUnique(term);
         dept = dept.substring(dept.indexOf("[")+1,dept.indexOf("]"));
@@ -106,7 +103,7 @@ public class Buying extends Controller {
         String requiredText = "Required books for " + dept + " " + courseNum;
 
         return ok(
-                buyListBooks.render(fBooks, requiredText)
+                buyListBooks.render(fBooks, courseNum, requiredText)
         );
 
     }
