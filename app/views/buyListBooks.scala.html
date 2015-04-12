@@ -181,6 +181,7 @@
                         </div>
 
                         <div class="row book_seller">
+
                             @if(fBook.foundEbayBook()) {
                                 <div class="col-xs-2">
                                     <img class="img-responsive logo" src="@routes.Assets.at("images/ebay_logo.png")">
@@ -212,11 +213,12 @@
                                 @book_not_found( routes.Assets.at("images/ebay_logo.png").toString() )
                             }
                     </div>
-                } else {
+                    </div>
+                </div>
+            } else {
                     <!-- informal language... 'cause we're not a machine -->
                     <div class="alert alert-warning"><strong>Bummertown!</strong> No matching books found</div>
-                }
             }
-        </div>
+        }
     </div>
 }
