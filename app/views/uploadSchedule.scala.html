@@ -1,0 +1,31 @@
+@(classMap: Map[Course,UMBClass])
+
+@main("UMBooks"){
+    <div class="jumbotron splash-header">
+        <div class="container">
+            <h1>Beacon Books</h1>
+            <p>Most students spend around $1200 on textbooks per year. Don't
+                be like most students. Save big on textbooks.</p>
+        </div>
+    </div>
+    <div class="container">
+        <h2>@classMap.size Courses successfully uploaded from class schedule:</h2>
+        <div class="row">
+                @for((key,value) <- classMap) {
+                    <div class="course-tile">
+                        <div id="box">
+                            <p>@key.name</p>
+                            <p>@key.department - @key.number</p>
+                            <p>Books:</p>
+                                @for(books <- value.books) {
+                                    <p>@books.title</p>
+                                    <p>@books.author</p>
+                                    <a href="@routes.Buying.listBooks(value.term.name, key.department.toString(), key.number, value.id,value.sectionNumber)" class="btn btn-primary">Buy</a>
+                                }
+                        </div>
+                    </div>
+                }
+        </div>
+
+    </div>
+}
