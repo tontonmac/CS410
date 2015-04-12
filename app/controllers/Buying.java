@@ -54,9 +54,6 @@ public class Buying extends Controller {
         
         String courseName = Course.findById(Long.parseLong(courseId)).name;
         StringBuilder sb = new StringBuilder();
-        for (Book book : books) {
-		    isbns.add(book.isbn);
-	    }
         return listBooks(JavaConversions.asScalaBuffer(isbns).toList(), courseName, "");
     }
 	
