@@ -34,7 +34,7 @@ public class UMBClass extends Model {
     @Column(name = "instructor_name")
     public String instructorName;
 
-    @JoinTable(name="required_book")
+    @JoinTable(name = "required_book")
     @ManyToMany(cascade = CascadeType.ALL)
     public List<Book> books;
 
@@ -45,12 +45,13 @@ public class UMBClass extends Model {
         this.instructorName = instructor;
     }
 
-    public static Finder<Long,UMBClass> find = new Finder<Long,UMBClass>(Long.class, UMBClass.class);
+    public static Finder<Long, UMBClass> find = new Finder<Long, UMBClass>(Long.class, UMBClass.class);
 
     // TODO: can we use JPA for this has-one :through type association?
     public Department department() {
         return course.department;
     }
+
     public static UMBClass findOrCreate(Term term, Course course, String section, String instructor) {
         UMBClass umbClass = findUnique(term, course, section);
 
@@ -67,22 +68,33 @@ public class UMBClass extends Model {
 
     public static UMBClass findUnique(Term term, Course course, String section) {
         return find.where().
-            eq("term_id", term.id).
-            eq("course_id", course.id).
-            eq("section_number", section).
-            findUnique();
+                eq("term_id", term.id).
+                eq("course_id", course.id).
+                eq("section_number", section).
+                findUnique();
     }
-    
+
     public static List<String> findUniqueSections() {
-    	List<SqlRow> rows = Ebean.createSqlQuery("select section_number from class group by section_number").findList();
-    	
-    	List<String> sectionNumbers = new ArrayList<String>();
-    	
-    	for (SqlRow row : rows) {
-    		sectionNumbers.add(row.getString("section_number"));
-    	}
-    	
-    	return sectionNumbers;
+        List<SqlRow> rows = Ebean.createSqlQuery("select section_number from class group by section_number").findList();
+
+        List<String> sectionNumbers = new ArrayList<String>();
+
+        for (SqlRow row : rows) {
+            sectionNumbers.add(row.getString("section_number"));
+        }
+
+        return sectionNumbers;
+    }
+
+    // overwrite default equals implementation to compare objects by ID instead
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        } else if (this.id != null && ((UMBClass)other).id != null) {
+            return this.id == ((UMBClass)other).id;
+        }
+
+        return false;
     }
     
     public String toString() {

@@ -109,6 +109,12 @@ public class BookImporter extends Base {
 
             // replace all UMB prices for the book with the data from this page
             importBookPriceData( row, r.getModel() );
+
+            // add this to the required books for our course
+            if (!umbClass.books.contains(r.getModel())) {
+                umbClass.books.add(r.getModel());
+                umbClass.save();
+            }
         }
 
         return resources;
