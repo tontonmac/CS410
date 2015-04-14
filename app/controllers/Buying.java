@@ -28,6 +28,7 @@ import java.lang.Integer;
 public class Buying extends Controller {
     public static List<Term> terms = Term.findAll();
     public static List<Department> departments = Department.findAll();
+    public static Term uploadedCourseTerm;
 
 	@Security.Authenticated(Secured.class)
     public static Result buy() {
@@ -51,23 +52,23 @@ public class Buying extends Controller {
             isbns.add(book.isbn);
         }
         //isbns.add("9780393123678");
-        
+
         String courseName = Course.findById(Long.parseLong(courseId)).name;
         StringBuilder sb = new StringBuilder();
         return listBooks(JavaConversions.asScalaBuffer(isbns).toList(), courseName, "");
     }
-	
+
 	@Security.Authenticated(Secured.class)
     public static Result searchByIsbn(String isbn) {
     	return listBooks(JavaConversions.asScalaBuffer(Collections.singletonList(isbn)).toList(), "", isbn);
     }
-    
+
 	@Security.Authenticated(Secured.class)
     public static Result listBooks(scala.collection.immutable.List<String> isbnParam, String courseNumber, String isbn) {
         ArrayList<FederatedBook> fBooks = new ArrayList<>();
 
         scala.collection.Iterator<String> iterator = isbnParam.iterator();
-        
+
         while(iterator.hasNext()) {
         	fBooks.add(new FederatedBook(iterator.next()));
         }
@@ -77,7 +78,8 @@ public class Buying extends Controller {
         );
 
     }
-    
+
+    @Security.Authenticated(Secured.class)
      public static Result searchBySchedule(String term, String dept, String courseNum, Long classId, String section) {
 
         Term tempTerm = Term.findUnique(term);
@@ -119,79 +121,87 @@ public class Buying extends Controller {
     public static Result uploadSchedule() {
         MultipartFormData body = request().body().asMultipartFormData();
         MultipartFormData.FilePart schedule = body.getFile("uploadSchedule");
-        List<String> courseSummaryList = new ArrayList<>();
-        List<Course> courseList = new ArrayList<>();
+
+        List<String> courseSummaryList;
         List<UMBClass> classList = new ArrayList<>();
         String courseTerm = null;
 
-        if (schedule != null) {
-            File file = schedule.getFile();
-            String courseSummary;
+        File file = null;
+        if(schedule != null)
+        {
+            file = schedule.getFile();
+        }
 
-            try {
-                FileInputStream fis = new FileInputStream(file);
-                CalendarBuilder builder = new CalendarBuilder();
+        courseSummaryList = parseSchedule(file);
+        HashMap<Course,UMBClass> courseAndClassList = buildCourseAndClassMap(courseSummaryList);
 
-                Calendar calendar = builder.build(fis);
-
-                for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
-                    Component component = (Component) i.next();
-
-                    System.out.println("Component [" + component.getName() + "]");
-
-                    for (Iterator j = component.getProperties().iterator(); j.hasNext();) {
-                        Property property = (Property) j.next();
-                        System.out.println("Property: " + property.getName() + " Value: " + property.getValue());
-
-                        if(property.getName().equals("SUMMARY")){
-                            courseSummary = property.getValue();
-                            courseSummaryList.add(courseSummary);
-                        }
-                        if(property.getName().equals("DTSTART")){
-                            courseTerm = property.getValue();
-                        }
-
-                    }
-
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Term currentTerm = findCurrentTerm(courseTerm);
-            HashMap<Course,UMBClass> courseAndClassList = new HashMap<>();
-            for(String summary : courseSummaryList) {
-                Department parsedDept = parseDepartment(summary);
-                String parsedCourseNum = parseCourseNumber(summary);
-                Course course = Course.findUnique(parsedDept,parsedCourseNum);
-                course.department = parsedDept;
-                String courseSection = parseCourseSection(summary);
-                UMBClass umbClass = UMBClass.findUnique(currentTerm, course, courseSection);
-                umbClass.term = currentTerm;
-                classList.add(umbClass);
-                courseList.add(course);
-                courseAndClassList.put(course,umbClass);
-            }
-
-            // Add test Chemistry course here
-            Department testDept = Department.findUnique("CHEM");
-            Course testCourse = Course.findUnique(testDept,"130");
-            testCourse.department = testDept;
-            UMBClass testClass = UMBClass.findUnique(currentTerm,testCourse,"01");
-            testClass.term = currentTerm;
-            courseAndClassList.put(testCourse,testClass);
-            courseList.add(testCourse);
-
-            // todo: replace the cache with the user session
-            Cache.set("user.schedule",courseList);
             Cache.set("user.classes",courseAndClassList);
             return ok(uploadSchedule.render(courseAndClassList));
-        } else {
-            // todo: need better error handling for wrong file extensions
-            flash("error", "Missing file");
-            return ok("something went wrong...");
         }
+
+
+
+    public static List<String> parseSchedule(File scheduleFile){
+
+        String courseSummary;
+        String courseTerm = null;
+        List<String> courseSummaryList = new ArrayList<>();
+
+        try {
+            FileInputStream fis = new FileInputStream(scheduleFile);
+            CalendarBuilder builder = new CalendarBuilder();
+
+            Calendar calendar = builder.build(fis);
+
+            for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
+                Component component = (Component) i.next();
+
+                for (Iterator j = component.getProperties().iterator(); j.hasNext();) {
+                    Property property = (Property) j.next();
+
+                    if(property.getName().equals("SUMMARY")){
+                        courseSummary = property.getValue();
+                        courseSummaryList.add(courseSummary);
+                    }
+                    if(property.getName().equals("DTSTART")){
+                        courseTerm = property.getValue();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        uploadedCourseTerm = findCurrentTerm(courseTerm);
+        return courseSummaryList;
+    }
+
+    public static HashMap<Course,UMBClass> buildCourseAndClassMap(List<String> parsedSummaryList) {
+
+        HashMap<Course,UMBClass> courseAndClassList = new HashMap<Course,UMBClass>();
+
+        // For each summary in the ics parsed list this will build a hashmap
+        // of course and respective classes
+        for(String summary : parsedSummaryList) {
+            Department parsedDept = parseDepartment(summary);
+            String parsedCourseNum = parseCourseNumber(summary);
+            Course course = Course.findUnique(parsedDept,parsedCourseNum);
+            course.department = parsedDept;
+            String courseSection = parseCourseSection(summary);
+            UMBClass umbClass = UMBClass.findUnique(uploadedCourseTerm, course, courseSection);
+            umbClass.term = uploadedCourseTerm;
+            courseAndClassList.put(course,umbClass);
+        }
+
+        // Add test Chemistry course here
+        Department testDept = Department.findUnique("CHEM");
+        Course testCourse = Course.findUnique(testDept,"130");
+        testCourse.department = testDept;
+        UMBClass testClass = UMBClass.findUnique(uploadedCourseTerm,testCourse,"01");
+        testClass.term = uploadedCourseTerm;
+        courseAndClassList.put(testCourse, testClass);
+
+        return courseAndClassList;
     }
 
     public static Department parseDepartment(String summary){
