@@ -192,15 +192,7 @@ public class Buying extends Controller {
             umbClass.term = uploadedCourseTerm;
             courseAndClassList.put(course,umbClass);
         }
-
-        // Add test Chemistry course here
-        Department testDept = Department.findUnique("CHEM");
-        Course testCourse = Course.findUnique(testDept,"130");
-        testCourse.department = testDept;
-        UMBClass testClass = UMBClass.findUnique(uploadedCourseTerm,testCourse,"01");
-        testClass.term = uploadedCourseTerm;
-        courseAndClassList.put(testCourse, testClass);
-
+        
         return courseAndClassList;
     }
 
