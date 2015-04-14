@@ -102,7 +102,7 @@ public class Buying extends Controller {
         String requiredText = "Required books for " + dept + " " + courseNum;
 
         return ok(
-                buyListBooks.render(fBooks, courseNum, requiredText)
+                buyListBooks.render(fBooks, requiredText, requiredText)
         );
 
     }

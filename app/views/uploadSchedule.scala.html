@@ -16,12 +16,12 @@
                         <div id="box">
                             <p>@key.name</p>
                             <p>@key.department - @key.number</p>
-                            <p>Books:</p>
-                                @for(books <- value.books) {
-                                    <p>@books.title</p>
-                                    <p>@books.author</p>
-                                    <a href="@routes.Buying.searchBySchedule(value.term.name, key.department.toString(), key.number, value.id,value.sectionNumber)" class="btn btn-primary">Buy</a>
-                                }
+                            @if(value.books.size() > 0){
+                                <a href="@routes.Buying.searchBySchedule(value.term.name, key.department.toString(), key.number, value.id,value.sectionNumber)"
+                                class="btn btn-primary">Buy Books</a>
+                            } else {
+                                <span style="color:crimson"><p>No required books found</p></span>
+                            }
                         </div>
                     </div>
                 }
