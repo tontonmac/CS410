@@ -3,6 +3,8 @@ package controllers;
 import play.mvc.*;
 import views.html.*;
 import models.Book;
+import models.Listing;
+import models.User;
 
 public class BookController extends Controller {
 
@@ -12,14 +14,24 @@ public class BookController extends Controller {
     }
 
 	@Security.Authenticated(Secured.class)
-    public static Result editBook() {
-        return ok(editBook.render());
-    }
+	    public static Result editBook(Long id) {
+			String userid=session("userid");
+
+			Listing editList=Listing.editListing(userid,id);
+			if(editList!=null)
+			{
+	        return ok(editBook.render(editList));
+	        }
+			else
+			{
+				return ok(index.render(null));
+			}
+	}
 
 	@Security.Authenticated(Secured.class)
     public static Result showBook(Long bookId) {
 		//DynamicForm requestData = Form.form().bindFromRequest();
-		
+
 		//String id = requestData.get("book_listing");
 		//
 		//List<Listing> sellerlisting = Listing.findListingsBySeller(id);
@@ -35,7 +47,7 @@ public class BookController extends Controller {
 		return ok( showBook.render(book) );
         //return ok(showBook(book).render() );
     }
-    
+
 	@Security.Authenticated(Secured.class)
     public static Result deleteBook() {
 		//Listing.createUpdate(Book.class, "delete from book_listing")
