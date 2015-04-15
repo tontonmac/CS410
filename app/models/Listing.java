@@ -110,4 +110,29 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
     public static List<Listing> findByIsbn(String isbn) {
         return find.where().eq("isbn", isbn).findList();
     }
+
+      public static boolean deleteListing(String userid,Long id) {
+
+	    	  boolean flag=false;
+	    	  if(userid!=null && id!=null)
+	    	  {
+	    		  List<Listing> listing=findListingsBySeller(userid);
+	    		  for(int i=0;i<listing.size();i++)
+	    		  {
+	    			  Listing list=listing.get(i);
+	    			  if(list.id.equals(id))
+	    			  {
+	    				  //delete
+	    				  String myId=Long.toString(id);
+	    				  Listing list11=new Listing();
+	    				 //list11.delete(myId);
+
+	    				  return true;
+	    			  }
+	    		  }
+
+
+	    	  }
+	    	  return false;
+    }
 }
