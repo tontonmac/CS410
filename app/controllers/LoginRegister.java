@@ -43,4 +43,19 @@ public class LoginRegister extends Controller {
         }
     }
     
+    public static Result register() {
+    	DynamicForm requestData = Form.form().bindFromRequest();
+    	String firstName = requestData.get("firstName");
+    	String lastName = requestData.get("lastName");
+    	String password = requestData.get("password");
+    	String email = requestData.get("email");
+    	
+    	User.createUser(firstName, lastName, password, email);
+    	session("email", email);
+        session("userid", Long.toString(User.findUserByEmail(email).id));
+        return redirect(
+            routes.Application.index()
+        );
+    }
+    
 }

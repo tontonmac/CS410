@@ -9,6 +9,7 @@ GET     /logout                 controllers.Application.logout()
 # Login Register
 GET         /login                     controllers.LoginRegister.login()
 POST        /login                  controllers.LoginRegister.authenticate()
+POST        /register               controllers.LoginRegister.register()
 
 # Buy
 GET         /buy                       controllers.Buying.buy()
