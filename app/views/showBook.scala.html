@@ -1,5 +1,4 @@
 @(book: Book)
-
 @main("UMBooks") {
     <div class="container">
     <h2>Seller listings</h2>
@@ -10,33 +9,26 @@
                 <img src="" alt=""  class="img-thumbnail">
             </div>
             <div class="col-sm-10">
-                <h1>Book title</h1><header>book.getTitle</header>
+       
+                <h1>Title</h1><header>@book.getTitle()</header>
                 <table class="tbl_dl">
                     <tr>
-                        <td>Author</td><td>book.getAuthor</td>
+                        <td>Author</td>@book.getAuthor()<td></td>
                     </tr>
                     <tr>
-                        <td>Edition</td><td>book.getEDition</td>
+                        <td>Edition</td>@book.getEdition()<td></td>
                     </tr>
                     <tr>
-                        <td>ISBN</td><td>book.getIsbn</td>
+                        <td>ISBN</td><td>@book.getISBN()</td>
                     </tr>
                     <tr>
-                        <td>Publisher</td><td>book.getPublisher</td>
+                        <td>Publisher</td><td>@book.getPublisher()</td>
                     </tr>
                     <tr>
-                        <td>Copyright Year</td><td>book.getYear</td>
-                    </tr>
-                    <tr>
-                        <td>Condition</td><td>book.getCondition</td>
-                    </tr>
-                    <tr>
-                        <td>Price</td><td>book.getPrice</td>
-                    </tr>
-                    <tr>
-                        <td>Description</td> <td>book.getDescription</td>
+                        <td>Copyright Year</td>@book.getCopyrightYear()<td></td>
                     </tr>
                 </table>
+             
                 </div>
 		</form>
                 <div class="row">

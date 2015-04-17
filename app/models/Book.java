@@ -6,6 +6,10 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
+import models.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Book extends Model {
@@ -106,11 +110,74 @@ public class Book extends Model {
         return find.where().eq("isbn", isbn).findUnique();
     }
     
-//    public static List<Book> findAll() {
-//        return Book.find.all();
+    public static Book findById(Long bookId) {
+    	return find.byId(bookId);
+    }
+    
+    public static Finder<Long,Book> find = new Finder<Long,Book>(Long.class, Book.class);
+    
+    List<Listing> localResults = Listing.findByIsbn(isbn);
+    
+
+    public boolean foundBook() {
+        return foundLocalResult();
+    }
+
+    public String getTitle() {
+        if (foundBook()) {
+            return title;
+        } else {
+            return "unknown";
+        }
+    }
+
+    public String getAuthor() {
+        if (foundBook()) {
+            return author;
+        } else {
+            return "unknown";
+        }
+    }
+     
+    public String getISBN() {
+        return isbn;
+    }
+
+    public String getPublisher() {
+        if (foundBook()) {
+            return publisher;
+        } else {
+            return "unknown";
+        }
+    }
+
+    public String getEdition() {
+        if (foundBook()) {
+            return edition;
+        } else {
+            return "unknown";
+        }
+    }
+//
+//    public String getImageUrl() {
+//        if (foundLocalResult()) {
+//        	if(hasImage())
+//        		return localResults.getImageUrl;
+//        } else {
+//            return "";
+//        }
 //    }
 
-    public static Finder<Long,Book> find = new Finder<Long,Book>(Long.class, Book.class);
+//    public boolean hasImage() {
+//        return !getImageUrl().equals("");
+//    }
+
+
+    public List<Listing> getLocalResults() { return localResults; }
+
+    public Boolean foundLocalResult() { return localResults != null && localResults.size() > 0; }
+
+
 }
 
 
