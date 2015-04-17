@@ -53,7 +53,8 @@ public class Listing extends Model {
 
 
 public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class, Listing.class);
-    public static List<Listing> findListingsBySellerAndBookId(String listedBy) {
+   
+	public static List<Listing> findListingsBySellerAndBookId(String listedBy) {
 
         return find12.where().eq("listed_by_id", listedBy).findList();
     }
@@ -130,12 +131,11 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	    				  return true;
 	    			  }
 	    		  }
-
-
 	    	  }
 	    	  return false;
     }
       
-      
-      
+//      public static List<Listing> findSellerById(Long id){
+//    	  return find.where().eq("id", id);
+//      }
 }

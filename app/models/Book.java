@@ -119,24 +119,12 @@ public class Book extends Model {
     List<Listing> localResults = Listing.findByIsbn(isbn);
     
 
-    public boolean foundBook() {
-        return foundLocalResult();
-    }
-
     public String getTitle() {
-        if (foundBook()) {
             return title;
-        } else {
-            return "unknown";
-        }
     }
 
     public String getAuthor() {
-        if (foundBook()) {
             return author;
-        } else {
-            return "unknown";
-        }
     }
      
     public String getISBN() {
@@ -144,33 +132,28 @@ public class Book extends Model {
     }
 
     public String getPublisher() {
-        if (foundBook()) {
             return publisher;
-        } else {
-            return "unknown";
-        }
     }
 
     public String getEdition() {
-        if (foundBook()) {
             return edition;
+    }
+
+    public String getImageUrl() {
+    	if(hasImage()) {
+        	return imagePath;
         } else {
-            return "unknown";
+            return "";
         }
     }
-//
-//    public String getImageUrl() {
-//        if (foundLocalResult()) {
-//        	if(hasImage())
-//        		return localResults.getImageUrl;
-//        } else {
-//            return "";
-//        }
-//    }
+    
+    public Double getPrice() {
+    	return buyNewPrice;
+    }
 
-//    public boolean hasImage() {
-//        return !getImageUrl().equals("");
-//    }
+    public boolean hasImage() {
+        return !getImageUrl().equals("");
+    }
 
 
     public List<Listing> getLocalResults() { return localResults; }

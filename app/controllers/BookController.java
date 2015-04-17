@@ -29,8 +29,7 @@ public class BookController extends Controller {
 	}
 
 	@Security.Authenticated(Secured.class)
-    public static Result showBook() {
-		Long bookId = 0L;
+    public static Result showBook(Long bookId) {
 		
         Book book = Book.findById(bookId);
        	return ok( showBook.render(book) );
@@ -68,6 +67,9 @@ public class BookController extends Controller {
 
 	}
 
-
-
+//@Security.Authenticated(Secured.class)
+//	public static Result sendEmail(Long id) {
+//		List<Listing> sellerId = Listing.findSellerById(id);
+//		return ok(sendEmail.render(sellerId));
+//	}
 }
