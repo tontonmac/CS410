@@ -48,4 +48,15 @@ public class User extends Model {
     public static User findUserByEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
+    
+    public static User createUser(String firstName, String lastName, String password, String email) {
+    	User user = new User();
+    	user.first_name = firstName;
+    	user.last_name = lastName;
+    	user.email = email;
+    	user.password = password;
+    	
+    	user.save();
+		return user;
+    }
 }
