@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import models.*;
-import models.Book;
-import models.Course;
-import models.UMBClass;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import play.cache.Cache;
 import play.data.DynamicForm;
@@ -23,7 +21,10 @@ import scala.collection.JavaConversions;
 import scala.collection.immutable.Map;
 import views.html.*;
 import net.fortuna.ical4j.model.*;
+
 import java.lang.Integer;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class Buying extends Controller {
     public static List<Term> terms = Term.findAll();
@@ -34,8 +35,25 @@ public class Buying extends Controller {
     public static Result buy() {
     	List<Course> courses = Course.findAll();
     	List<String> sections = UMBClass.findUniqueSections();
-
-        return ok(buy.render(terms, departments, courses, sections));
+    	
+    	List<UMBClass> umbclasses = UMBClass.findAll();
+    	
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("[");
+    	for (int i = 0; i < umbclasses.size(); i++) {
+    		UMBClass umbclass = umbclasses.get(i);
+    		sb.append("{ 'id' : ").append(umbclass.id).append(", ")
+    		.append("'term' : ").append(umbclass.term.id).append(", ")
+    		.append("'department' : '").append(umbclass.course.department.shortName).append("', ")
+    		.append("'course' : { 'id' : ").append(umbclass.course.id).append(", 'name' : '").append(umbclass.course.name).append("' }, ")
+    		.append("'section' : '").append(umbclass.sectionNumber).append("' }");
+    		if (i < umbclasses.size() - 1) {
+    			sb.append(" , ");
+    		}
+    	}
+    	sb.append("]");
+    	
+        return ok(buy.render(terms, departments, courses, sections, sb.toString()));
     }
 
 	@Security.Authenticated(Secured.class)

@@ -85,6 +85,10 @@ public class UMBClass extends Model {
 
         return sectionNumbers;
     }
+    
+    public static List<UMBClass> findAll() {
+    	return find.all();
+    }
 
     // overwrite default equals implementation to compare objects by ID instead
     public boolean equals(Object other) {

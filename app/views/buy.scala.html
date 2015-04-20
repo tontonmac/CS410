@@ -1,5 +1,5 @@
-@(terms: List[Term], departments: List[Department], courses: List[Course], sections: List[String])
-
+@(terms: List[Term], departments: List[Department], courses: List[Course], sections: List[String], umbclasses: String)
+ 
 @main("UMBooks") {
 
 <div class="jumbotron splash-header">
@@ -13,36 +13,100 @@
 
 <div class="container">
 	<h2>Search by course</h2>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var classes = @{Html(umbclasses)};
+		
+		$('#term').change(function(e) {
+			var val = $(this).val();
+			
+			var departments = [];
+			for (i = 0; i < classes.length; i++) {
+				if (classes[i].term == val) {
+					if ($.inArray(classes[i].department, departments) == -1) {
+						departments.push(classes[i].department);	
+					}
+				}
+			}
+			
+			var options = "<option value=\"\"></option>";
+			for (i = 0; i < departments.length; i++) {
+				options += "<option value=\"" + departments[i] + "\">" + departments[i] + "</option>";
+			}
+			$('#department').html(options);
+			$('#course').html("");
+			$('#section').html("");
+		});
+		
+		$('#department').change(function(e) {
+			var val = $(this).val();
+			
+			var courses = [];
+			var courseIds = [];
+			for (i = 0; i < classes.length; i++) {
+				if (classes[i].department == val) {
+					if ($.inArray(classes[i].course.id, courseIds) == -1) {
+						courseIds.push(classes[i].course.id);
+						courses.push(classes[i].course);
+					}
+				}
+			}
+			
+			var options = "<option value=\"\"></option>";
+			for (i = 0; i < courses.length; i++) {
+				options += "<option value=\"" + courses[i].id + "\">" + courses[i].name + "</option>";
+			}
+			
+			$('#course').html(options);
+			$('#section').html("");
+		});
+		
+		$('#course').change(function(e) {
+			var val = $(this).val();
+			
+			var sections = [];
+			for (i = 0; i < classes.length; i++) {
+				if (classes[i].course.id == val) {
+					if ($.inArray(classes[i].section, sections) == -1) {
+						sections.push(classes[i].section);
+					}
+				}
+			}
+			
+			var options = "<option value=\"\"></option>";
+			for (i = 0; i < sections.length; i++) {
+				options += "<option value=\"" + sections[i] + "\">" + sections[i] + "</option>";
+			}
+			
+			$('#section').html(options);
+		});
+	});
+	</script>
 	<form action="/buy/searchByCourse" method="post">
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-2">
-					<label for="term">Term</label> <select name="term" class="term">
+					<label for="term">Term</label> <select name="term" id="term" class="term">
+						<option value=""></option>
 						@for(term <- terms) {
 							<option value="@term.id">@term.name</option>
 						}
 					</select>
 				</div>
 				<div class="col-sm-4">
-					<label for="deparment">Department</label> <select name="department"
+					<label for="deparment">Department</label> <select name="department" id="department"
 						class="department">
-						@for(department <- departments) {
-							<option value="@department.id">@department.fullName</option>
-						}
+						<option value=""></option>
 					</select>
 				</div>
 				<div class="col-sm-2">
-					<label for="course">Course</label> <select name="course" class="course">
-						@for(course <- courses) {
-							<option value="@course.id">@course.number</option>
-						}
+					<label for="course">Course</label> <select name="course" id="course" class="course">
+						<option value=""></option>
 					</select>
 				</div>
 				<div class="col-sm-2">
-					<label for="section">Section</label> <select name="section" class="section">
-						@for(section <- sections) {
-							<option value="@section">@section</option>
-						}
+					<label for="section">Section</label> <select name="section" id="section" class="section">
+						<option value=""></option>
 					</select>
 				</div>
 			</div>
