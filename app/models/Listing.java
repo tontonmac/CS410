@@ -79,7 +79,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	       // return find.where().eq("listed_by_id", listedBy).findList();
     }
     
-    public static Listing createOrEdit(Long id, User listedBy, String description, Double price, String title, String author, String isbn, Date copyright_date, String publisher, String edition) {
+    public static Listing createOrEdit(Long id,String description, Double price, String title, String author, String isbn,String publisher, String edition) {
     	Listing listing = null;
     	
     	if (id != null) {
@@ -88,13 +88,13 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
     		listing = new Listing();
     	}
     	
-    	listing.listedBy = listedBy;
+    	
     	listing.description = description;
     	listing.price = price;
     	listing.title = title;
     	listing.author = author;
     	listing.isbn = isbn;
-    	listing.copyright_date = copyright_date;
+    
     	listing.publisher = publisher;
     	listing.edition = edition;
     	
