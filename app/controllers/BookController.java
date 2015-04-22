@@ -13,6 +13,10 @@ public class BookController extends Controller {
 
 	@Security.Authenticated(Secured.class)
     public static Result newBook() {
+		return ok(newBook.render());
+    }
+	
+	public static Result submitNewBook() {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		String title = requestData.get("title");
      	String isbn = requestData.get("isbn");
@@ -23,6 +27,8 @@ public class BookController extends Controller {
      	String description = requestData.get("description");
      	String str_price = requestData.get("price");
      	Double d_price=Double.valueOf(str_price);
+     	
+     	System.out.println(str_price);
     	
     Listing.createOrEdit(null,description, d_price, title, author, isbn, publisher, edition);
     	
@@ -30,7 +36,7 @@ public class BookController extends Controller {
         //    routes.Application.index()
        // );
         return ok(newBook.render());
-    }
+	}
 
 	@Security.Authenticated(Secured.class)
 	    public static Result editBook(Long id) {

@@ -22,6 +22,7 @@ GET         /buy/searchBySchedule                controllers.Buying.searchBySche
 
 # Book controller
 GET        /book/new            controllers.BookController.newBook()
+POST        /book/new            controllers.BookController.submitNewBook()
 GET        /book/edit           controllers.BookController.editBook(id:Long)
 GET        /book/show           controllers.BookController.showBook(id: Long)
 GET        /book/delete         controllers.BookController.deleteBook(id:Long)
