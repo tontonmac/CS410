@@ -62,6 +62,19 @@ public class BookController extends Controller {
        	return ok( showBook.render(book) );
         
     }
+	
+	public static Result sendEmail() {
+		DynamicForm requestData = Form.form().bindFromRequest();
+		long bookId = Long.parseLong(requestData.get("id"));
+		String reason = requestData.get("reason");
+		String message = requestData.get("message");
+		
+		Book book = Book.findById(bookId);
+		
+		// send email
+		return ok( showBook.render(book) );
+		
+	}
 
 @Security.Authenticated(Secured.class)
 	public static Result deleteBook(Long id) {

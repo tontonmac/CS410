@@ -26,7 +26,7 @@ POST        /book/new            controllers.BookController.submitNewBook()
 GET        /book/edit           controllers.BookController.editBook(id:Long)
 GET        /book/show           controllers.BookController.showBook(id: Long)
 GET        /book/delete         controllers.BookController.deleteBook(id:Long)
-#POST	   /book/email_form		controllers.BookController.sendEmail(id: Long)
+POST	   /book/email   		controllers.BookController.sendEmail()
 
 # Support
 GET         /support                   controllers.Support.support()
