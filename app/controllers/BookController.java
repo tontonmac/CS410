@@ -1,17 +1,42 @@
 package controllers;
 
+import play.data.DynamicForm;
+import play.data.Form;
 import play.mvc.*;
 import views.html.*;
 import models.Book;
 import models.Listing;
 import models.User;
+
 import java.util.List;
 public class BookController extends Controller {
 
 	@Security.Authenticated(Secured.class)
     public static Result newBook() {
-        return ok(newBook.render());
+		return ok(newBook.render());
     }
+	
+	public static Result submitNewBook() {
+		DynamicForm requestData = Form.form().bindFromRequest();
+		String title = requestData.get("title");
+     	String isbn = requestData.get("isbn");
+     	String condition = requestData.get("condition");
+     	String author = requestData.get("author");
+     	String publisher = requestData.get("publisher");
+     	String edition = requestData.get("edition");
+     	String description = requestData.get("description");
+     	String str_price = requestData.get("price");
+     	Double d_price=Double.valueOf(str_price);
+     	
+     	System.out.println(str_price);
+    	
+    Listing.createOrEdit(null,description, d_price, title, author, isbn, publisher, edition);
+    	
+       // return redirect(
+        //    routes.Application.index()
+       // );
+        return ok(newBook.render());
+	}
 
 	@Security.Authenticated(Secured.class)
 	    public static Result editBook(Long id) {
@@ -27,6 +52,8 @@ public class BookController extends Controller {
 				return ok(index.render(null));
 			}
 	}
+	
+	 
 
 	@Security.Authenticated(Secured.class)
     public static Result showBook(Long bookId) {
