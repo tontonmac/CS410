@@ -36,14 +36,6 @@ public class BookController extends Controller {
         
     }
 
-	/*@Security.Authenticated(Secured.class)
-    public static Result deleteBook() {
-		//Listing.createUpdate(Book.class, "delete from book_listing")
-		//.execute();
-    	// return ok(listings.render());
-        return ok("TODO");
-    }*/
-
 @Security.Authenticated(Secured.class)
 	public static Result deleteBook(Long id) {
 
@@ -64,12 +56,5 @@ public class BookController extends Controller {
 	    	}
 	     }
 	     return ok(index.render(null));
-
 	}
-
-//@Security.Authenticated(Secured.class)
-//	public static Result sendEmail(Long id) {
-//		List<Listing> sellerId = Listing.findSellerById(id);
-//		return ok(sendEmail.render(sellerId));
-//	}
 }
