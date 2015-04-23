@@ -15,7 +15,7 @@ public class BookController extends Controller {
     public static Result newBook() {
 		return ok(newBook.render());
     }
-	
+
 	public static Result submitNewBook() {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		String title = requestData.get("title");
@@ -27,11 +27,11 @@ public class BookController extends Controller {
      	String description = requestData.get("description");
      	String str_price = requestData.get("price");
      	Double d_price=Double.valueOf(str_price);
-     	
+
      	System.out.println(str_price);
-    	
+
     Listing.createOrEdit(null,description, d_price, title, author, isbn, publisher, edition);
-    	
+
        // return redirect(
         //    routes.Application.index()
        // );
@@ -52,32 +52,34 @@ public class BookController extends Controller {
 				return ok(index.render(null));
 			}
 	}
-	
-	 
+
+
 
 	@Security.Authenticated(Secured.class)
     public static Result showBook(Long bookId) {
-		
+
         Book book = Book.findById(bookId);
        	return ok( showBook.render(book) );
-        
+
     }
-	
+
 	public static Result sendEmail() {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		long bookId = Long.parseLong(requestData.get("id"));
 		String reason = requestData.get("reason");
 		String message = requestData.get("message");
-		
+
 		Book book = Book.findById(bookId);
-		
+
 		// send email
 		return ok( showBook.render(book) );
-		
+
 	}
 
 @Security.Authenticated(Secured.class)
 	public static Result deleteBook(Long id) {
+
+
 
 	     if(id!=null)
 	     {
@@ -86,7 +88,6 @@ public class BookController extends Controller {
 	    	if(flag)
 	    	{
 	    	//List<Listing> newListing=Listing.editListing(userid,id);
-	    		System.out.println("wowww");
 	    		List<Listing> afterDelete=Listing.findListingsBySeller(userid);
 	    	return ok(listings.render(afterDelete));
 	    	}
@@ -96,5 +97,6 @@ public class BookController extends Controller {
 	    	}
 	     }
 	     return ok(index.render(null));
+
 	}
 }
