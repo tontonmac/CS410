@@ -1,4 +1,4 @@
-@(book: Book)
+@(listing: Listing)
 @main("UMBooks") {
     <div class="container">
     <h2>Seller listings</h2>
@@ -9,28 +9,28 @@
                 <img src="@routes.Assets.at("images/book.png")" alt=""  class="img-thumbnail">
             </div>
             <div class="col-sm-10">
-       @if(book == null) {
-       		No Local Listing for ISBN: @book.isbn
+       @if(listing == null) {
+       		No Local Listing for ISBN: @listing.isbn
        		} else {
-                <h1>Title</h1><header>@book.getTitle()</header>
+                <h1>Title</h1><header>@listing.title</header>
                 <table class="tbl_dl">
                     <tr>
-                        <td>Author</td>@book.getAuthor()<td></td>
+                        <td>Author</td>@listing.author<td></td>
                     </tr>
                     <tr>
-                        <td>Edition</td>@book.getEdition()<td></td>
+                        <td>Edition</td>@listing.edition<td></td>
                     </tr>
                     <tr>
-                        <td>ISBN</td><td>@book.getISBN()</td>
+                        <td>ISBN</td><td>@listing.isbn</td>
                     </tr>
                     <tr>
-                        <td>Publisher</td><td>@book.getPublisher()</td>
+                        <td>Publisher</td><td>@listing.publisher</td>
                     </tr>
                     <tr>
-                        <td>Copyright Year</td><td>@book.getCopyrightYear()</td>
+                        <td>Copyright Year</td><td>@listing.copyright_date</td>
                     </tr>
                     <tr>
-                    	<td>Price</td><td>@book.getPrice()</td>
+                    	<td>Price</td><td>@listing.price</td>
                     </tr>
                 </table>
              }
@@ -52,8 +52,8 @@
                                 <textarea class="form-control" id="message" name="message" placeholder="Your message here" required>
                                 </textarea>
                             </div>
-                            <input type="hidden" name="id" value="@book.id">
-                            <input type="submit" class="btn btn-primary" />
+                            <input type="hidden" name="id" value="@listing.id">
+                            <input type="submit" class="btn btn-primary" >
                         </form>
                     </div>
                 </div>

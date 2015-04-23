@@ -135,7 +135,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	    	  return false;
     }
       
-//      public static List<Listing> findSellerById(Long id){
-//    	  return find.where().eq("id", id);
-//      }
+      public static Listing findById(Long id){
+    	  return find.byId(id);
+      }
 }
