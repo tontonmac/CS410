@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
@@ -38,46 +37,3 @@ GET         /listings                  controllers.Selling.listings()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.at(path="/public", file)
-=======
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
-
-# Home page
-GET         /                          controllers.Application.index()
-GET     /logout                 controllers.Application.logout()
-
-# Login Register
-GET         /login                     controllers.LoginRegister.login()
-POST        /login                  controllers.LoginRegister.authenticate()
-POST        /register               controllers.LoginRegister.register()
-
-#Update Data
-POST        /book/update                     controllers.UpdateData.updateForm()
-
-# Buy
-GET         /buy                       controllers.Buying.buy()
-GET         /buy/books           controllers.Buying.listBooks(isbnParam: scala.collection.immutable.List[String], courseNum: String, isbn: String)
-POST        /buy/searchByCourse  controllers.Buying.searchByCourse()
-GET         /buy/searchByIsbn  controllers.Buying.searchByIsbn(isbn: String)
-POST        /buy/uploadSchedule        controllers.Buying.uploadSchedule()
-GET         /buy/uploadSchedule        controllers.Buying.schedule()
-GET         /buy/searchBySchedule                controllers.Buying.searchBySchedule(term: String, dept: String, courseNum: String, classId: Long, section: String)
-
-# Book controller
-GET        /book/new            controllers.BookController.newBook()
-POST        /book/new            controllers.BookController.submitNewBook()
-GET        /book/edit           controllers.BookController.editBook(id:Long)
-GET        /book/show           controllers.BookController.showBook(id: Long)
-GET        /book/delete         controllers.BookController.deleteBook(id:Long)
-POST	   /book/email   		controllers.BookController.sendEmail()
-
-# Support
-GET         /support                   controllers.Support.support()
-
-# Listings
-GET         /listings                  controllers.Selling.listings()
-
-# Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file              controllers.Assets.at(path="/public", file)
->>>>>>> branch 'master' of https://github.com/tontonmac/CS410.git
