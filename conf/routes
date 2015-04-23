@@ -11,6 +11,9 @@ GET         /login                     controllers.LoginRegister.login()
 POST        /login                  controllers.LoginRegister.authenticate()
 POST        /register               controllers.LoginRegister.register()
 
+#Update Data
+POST        /book/update                     controllers.UpdateData.updateForm()
+
 # Buy
 GET         /buy                       controllers.Buying.buy()
 GET         /buy/books           controllers.Buying.listBooks(isbnParam: scala.collection.immutable.List[String], courseNum: String, isbn: String)

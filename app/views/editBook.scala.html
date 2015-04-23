@@ -1,4 +1,5 @@
-@(editList : Listing)
+@(editList:Listing)
+
 
 
 @main("UMBooks") {
@@ -14,62 +15,65 @@
         <div class="row">
             <h2>Update Your Book</h2>
             <p>Use the form below to update the information for the book you'd like to sell</p>
-            <form>
+
 
 
 
                 <div class="col-sm-4">
+        <form name="editBook" action="/book/update" method="post">
+        <input type="hidden" name="id" id="id" value="@editList.id">
+        <input type="hidden" name="listedBy" id="listedBy" value="@editList.listedBy">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" value="@editList.title">
+                        <input type="text" class="form-control" name="title" id="title" value="@editList.title">
                     </div>
                     <div class="form-group">
                         <label for="isbn">ISBN</label>
-                        <input type="text" class="form-control" id="isbn" value="@editList.isbn">
+                        <input type="text" class="form-control" name="isbn" id="isbn" value="@editList.isbn">
                     </div>
                     <div class="form-group">
                         <label for="condition">Condition</label>
-                        <select class="form-control" id="condition">
-                            <option>New</option>
+                        <select class="form-control" id="condition" name="condition">
+
+                            <option value="1">new</option>
+
                             <!-- todo: add dynamic donditions here -->
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="image">Image</label>
-                        <input type="file" id="upload" value="@editList.image_path">
+                        <input type="file" name="image" id="image" value="@editList.image_path">
                     </div>
                     <div class="form-group">
                         <label for="author">Author</label>
-                        <input type="text" class="form-control" id="author" value="@editList.author">
+                        <input type="text" class="form-control" name="author" id="author" value="@editList.author">
                     </div>
                     <div class="form-group">
                         <label for="publisher">Publisher</label>
-                        <input type="text" class="form-control" id="publisher" value="@editList.publisher">
+                        <input type="text" class="form-control" id="publisher" name="publisher" value="@editList.publisher">
                     </div>
 
                     <div class="form-group">
                         <label for="edition">Edition/Year</label>
-                        <input type="text" class="form-control" id="edition" value="@editList.edition">
+                        <input type="text" class="form-control" id="edition" name="edition" value="@editList.edition">
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea type="text" rows=5 class="form-control" id="description" >@editList.description</textarea>
+                        <textarea type="text" rows=5 class="form-control" id="description" name="description" >@editList.description</textarea>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="text" class="form-control" id="price" value="@editList.price">
+                        <input type="text" class="form-control" id="price" name="price" value="@editList.price">
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
 
+                    <input type="submit" class="btn btn-primary" name="UPDATE" value="UPDATE">
+   </form>
                 </div>
-            </form>
+
         </div>
     </div>
     <script>
         $('select').select2();
     </script>
 }
-
-
-
 
