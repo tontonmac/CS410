@@ -35,11 +35,12 @@
 	   		                        <li class="@("active".when(request.path == controllers.routes.Buying.buy().toString()))"><a href="/buy">Buy</a></li>
 	   		                        <li class="@("active".when(request.path == controllers.routes.Selling.listings().toString()))"><a href="/listings">Sell</a></li>
 	   		                    <!-- todo: change to logout if you're already logged in -->
-	                           <li class="@("active".when(request.path == controllers.routes.LoginRegister.login().toString()))"><a href="/login">Login</a></li>
-
-
-	                           <li class="@("active".when(request.path == controllers.routes.Application.logout().toString()))"><a href="/logout">Logout</a></li>
-	                           <li class="@("active".when(request.path == controllers.routes.Support.support().toString()))"><a href="/support">Support</a></li>
+	                            @if(session().get("userid")==null){
+							  	                           <li class="@("active".when(request.path == controllers.routes.LoginRegister.login().toString()))"><a href="/login">Login</a></li>
+							                                 }else{
+							  	                           <li class="@("active".when(request.path == controllers.routes.Application.logout().toString()))"><a href="/logout">Logout</a></li>
+	                           }
+	                          <li class="@("active".when(request.path == controllers.routes.Support.support().toString()))"><a href="/support">Support</a></li>
 	                       </ul>
 	                   </div>
 	               </div>
