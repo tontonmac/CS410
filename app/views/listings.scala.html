@@ -13,24 +13,21 @@
     <!-- dynamically generate rows for each listing based on the following html snippet -->
     <div class="row">
 
- if(@listings.isEmpty())
- {
+@if(listings.isEmpty()) {
  <p>You are not listing anything yet ... </p>
- }
+ } else {
 
-else
-{
     <h2>My Listings</h2>
-        <div class="col-sm-1">
-        	<img src="example.png" width="120" height="120" class="img-thumbnail" />
-        </div>
+
         @for(listing <- listings) {
+        <div class="col-sm-1">
+		        	 <img class="img-thumbnail img-rounded" src="@routes.Assets.at("images/book.png")" width="120" height="120" >
+        </div>
         <div class="col-sm-3 col-sm-offset-1">
-        	<h3>Title</h3>@listing.title
-        	<p>Author</p>@listing.author
-        	<p>Price<p>@listing.price
-        	<p># views</p>@listing.num_views
-        	<p>Description</p>@listing.description
+        	<h3><strong>Title :</strong>@listing.title</h3>
+        	<p><strong>Author :</strong>@listing.author</p>
+        	<p><strong>Price :</strong>$@listing.price</p>
+        	<p><strong>Description :</strong>@listing.description</p>
         </div>
 
           <div class="col-sm-3">
