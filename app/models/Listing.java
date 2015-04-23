@@ -101,6 +101,29 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
     	listing.save();
     	return listing;
     }
+    public static Listing Edit(Long id, String description, Double price, String title, String author, String isbn, Date copyright_date, String publisher, String edition) {
+	    	Listing listing = null;
+
+	    	if (id != null) {
+	    		listing = Listing.find.byId(id);
+	    	} else {
+	    		listing = new Listing();
+	    	}
+
+
+	    	listing.description = description;
+	    	listing.price = price;
+	    	listing.title = title;
+	    	listing.author = author;
+	    	listing.isbn = isbn;
+	    	listing.copyright_date = copyright_date;
+	    	listing.publisher = publisher;
+	    	listing.edition = edition;
+
+	    	listing.save();
+	    	return listing;
+	    }
+
 
     public static Finder<Long,Listing> find = new Finder<Long,Listing>(Long.class, Listing.class);
 
@@ -112,30 +135,21 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
         return find.where().eq("isbn", isbn).findList();
     }
 
-      public static boolean deleteListing(String userid,Long id) {
 
-	    	  boolean flag=false;
-	    	  if(userid!=null && id!=null)
-	    	  {
-	    		  List<Listing> listing=findListingsBySeller(userid);
-	    		  for(int i=0;i<listing.size();i++)
-	    		  {
-	    			  Listing list=listing.get(i);
-	    			  if(list.id.equals(id))
-	    			  {
-	    				  //delete
-	    				  String myId=Long.toString(id);
-	    				  Listing list11=new Listing();
-	    				 //list11.delete(myId);
+     public static Listing findById(Long id) {
+	        return find.byId(id);
+	    }
 
-	    				  return true;
-	    			  }
-	    		  }
-	    	  }
-	    	  return false;
-    }
+	     public static boolean deleteListing(String userid,Long id) {
 
-      public static Listing findById(Long id){
-    	  return find.byId(id);
-      }
+	   	  if(userid!=null && id!=null)
+	   	  {
+	   		  Listing listing = findById(id);
+	   		  listing.delete();
+	   		  return true;
+	   	  }
+	return false;
+}
+
+
 }
