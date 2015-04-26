@@ -10,6 +10,10 @@ import models.User;
 
 import java.util.List;
 
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.SimpleEmail;
+
 public class BookController extends Controller {
 
 	@Security.Authenticated(Secured.class)
@@ -69,9 +73,28 @@ public class BookController extends Controller {
 
 //		Book book = Book.findById(bookId);
 		Listing listing = Listing.findById(bookId);
+		try{
+			Email email = new SimpleEmail();
+			email.setHostName("smtp.gmail.com");
+			email.setSmtpPort(465);
+			email.setAuthenticator(new DefaultAuthenticator("mcamara9@gmail.com", "mypassword"));
+			email.setSSLOnConnect(true);
+			email.setFrom("mcamara9@gmail.com");
+			email.addTo("mcamara9@gmail.com");
+			email.setSubject(reason +" "+ "id#"+bookId);
+			email.setMsg(message);
+			email.send();
+				
+				
+			}
+			catch(Exception e)
+			{
+				throw new RuntimeException(e);
+			}
 
 		// send email
 		return ok(showBook.render(listing));
+//		return ok("email sent");
 
 	}
 
