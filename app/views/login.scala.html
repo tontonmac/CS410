@@ -26,11 +26,11 @@
 				}
 			  <div class="form-group">
 			    <label for="email">Username</label>
-			    <input type="text" class="form-control" id="email" name="email" placeholder="Enter username" value="@form("email").value">
+			    <input type="text" class="form-control" id="email" name="email" placeholder="Enter username" value="@form("email").value" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="password">Password</label>
-			    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+			    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
 			  </div>
 			  <button type="submit" class="btn btn-default">Login</button>
 			}
@@ -40,23 +40,23 @@
 			<form action="/register" method="post">
 			  <div class="form-group">
 			    <label for="first-name">First Name</label>
-			    <input type="text" class="form-control" name="firstName">
+			    <input type="text" class="form-control" name="firstName" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="last-name">Last Name</label>
-			    <input type="text" class="form-control" name="lastName">
+			    <input type="text" class="form-control" name="lastName" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="major">Major</label>
-			    <input type="text" class="form-control" name="major">
+			    <input type="text" class="form-control" name="major" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="email">Email</label>
-			    <input type="email" class="form-control" name="email">
+			    <input type="email" class="form-control" name="email" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="password">Password</label>
-			    <input type="password" class="form-control" name="password">
+			    <input type="password" class="form-control" name="password" required>
 			  </div>
 			  <button type="submit" class="btn btn-default">Register</button>
 			</form>

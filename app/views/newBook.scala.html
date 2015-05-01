@@ -11,45 +11,45 @@
         <div class="row">
             <h2>Sell a book</h2>
             <p>Use the form below to fill out the information for the book you'd like to sell</p>
-            
+
 			<form action="/book/new" method="post">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" name="title">
+                        <input type="text" class="form-control" name="title" required>
                     </div>
                     <div class="form-group">
                         <label for="isbn">ISBN</label>
-                        <input type="text" class="form-control" name="isbn">
+                        <input type="text" class="form-control" name="isbn" required>
                     </div>
                     <div class="form-group">
                         <label for="condition">Condition</label>
-                        <select class="form-control" name="condition">
+                        <select class="form-control" name="condition" required>
                             <option>New</option>
                             <!-- todo: add dynamic donditions here -->
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="author">Author</label>
-                        <input type="text" class="form-control" name="author">
-                        
+                        <input type="text" class="form-control" name="author" required>
+
                     </div>
                     <div class="form-group">
                         <label for="publisher">Publisher</label>
-                        <input type="text" class="form-control" name="publisher">
+                        <input type="text" class="form-control" name="publisher" required>
                     </div>
                     <div class="form-group">
                         <label for="edition">Edition/Year</label>
-                        <input type="text" class="form-control" name="edition">
+                        <input type="text" class="form-control" name="edition" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea type="text" rows=5 class="form-control" name="description"></textarea>
+                        <textarea type="text" rows=5 class="form-control" name="description" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="text" class="form-control" name="price">
+                        <input type="text" class="form-control" name="price" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
