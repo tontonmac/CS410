@@ -24,6 +24,9 @@ import net.fortuna.ical4j.model.*;
 
 import java.lang.Integer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Buying extends Controller {
@@ -37,23 +40,30 @@ public class Buying extends Controller {
     	List<String> sections = UMBClass.findUniqueSections();
     	
     	List<UMBClass> umbclasses = UMBClass.findAll();
-    	
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("[");
-    	for (int i = 0; i < umbclasses.size(); i++) {
-    		UMBClass umbclass = umbclasses.get(i);
-    		sb.append("{ 'id' : ").append(umbclass.id).append(", ")
-    		.append("'term' : ").append(umbclass.term.id).append(", ")
-    		.append("'department' : '").append(umbclass.course.department.shortName).append("', ")
-    		.append("'course' : { 'id' : ").append(umbclass.course.id).append(", 'name' : '").append(umbclass.course.name).append("' }, ")
-    		.append("'section' : '").append(umbclass.sectionNumber).append("' }");
-    		if (i < umbclasses.size() - 1) {
-    			sb.append(" , ");
-    		}
+    	try {
+	    	JSONArray json = new JSONArray();
+	    	
+	    	for (int i = 0; i < umbclasses.size(); i++) {
+	    		UMBClass umbclass = umbclasses.get(i);
+	    		
+	    		JSONObject courseJson = new JSONObject();
+	    		courseJson.put("id", umbclass.course.id);
+	    		courseJson.put("name", umbclass.course.name);
+	    		
+	    		JSONObject umbClassJson = new JSONObject();
+	    		umbClassJson.put("id", umbclass.id);
+	    		umbClassJson.put("term", umbclass.term.id);
+	    		umbClassJson.put("department", umbclass.course.department.shortName);
+	    		umbClassJson.put("course", courseJson);
+	    		umbClassJson.put("section", umbclass.sectionNumber);
+	    	
+	        	json.put(i, umbClassJson);
+	    	}
+	        	
+	        return ok(buy.render(terms, departments, courses, sections, json.toString()));
+    	} catch (Exception e) {
+    		throw new RuntimeException(e);
     	}
-    	sb.append("]");
-    	
-        return ok(buy.render(terms, departments, courses, sections, sb.toString()));
     }
 
 	@Security.Authenticated(Secured.class)
