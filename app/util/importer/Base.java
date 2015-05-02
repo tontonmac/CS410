@@ -51,7 +51,9 @@ public abstract class Base {
         while(true) {
             try {
                 log("fetching url: " + url);
-                Document doc = Jsoup.connect(url).timeout(timeoutSec * 1000).get();
+                Document doc = Jsoup.connect(url).
+                    userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0").
+                    timeout(timeoutSec * 1000).get();
 
                 if (enableCaching) {
                     cachedDocument.put(url, doc);
