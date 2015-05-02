@@ -14,6 +14,29 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.Barcode128;
+import com.itextpdf.text.pdf.Barcode39;
+import com.itextpdf.text.pdf.BarcodeCodabar;
+import com.itextpdf.text.pdf.BarcodeDatamatrix;
+import com.itextpdf.text.pdf.BarcodeEAN;
+import com.itextpdf.text.pdf.BarcodeEANSUPP;
+import com.itextpdf.text.pdf.BarcodeInter25;
+import com.itextpdf.text.pdf.BarcodePDF417;
+import com.itextpdf.text.pdf.BarcodePostnet;
+import com.itextpdf.text.pdf.BarcodeQRCode;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
+
 public class BookController extends Controller {
 
 	@Security.Authenticated(Secured.class)
@@ -21,7 +44,7 @@ public class BookController extends Controller {
 		return ok(newBook.render());
 	}
 
-	public static Result submitNewBook() {
+	public static Result submitNewBook() throws IOException, DocumentException{
 		DynamicForm requestData = Form.form().bindFromRequest();
 		String title = requestData.get("title");
 		String isbn = requestData.get("isbn");
@@ -34,13 +57,41 @@ public class BookController extends Controller {
 		Double d_price = Double.valueOf(str_price);
 
 		System.out.println(str_price);
-
-		Listing.createOrEdit(null, description, d_price, title, author, isbn,
+		Listing.createOrEdit(null,description, d_price, title, author, isbn,
 				publisher, edition);
 
 		// return redirect(
 		// routes.Application.index()
 		// );
+
+		      final String RESULT = "C:\\barcode.pdf";
+
+		        // step 1
+		        Document document = new Document(new Rectangle(340, 842));
+		        // step 2
+		        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(RESULT));
+		        // step 3
+		        document.open();
+		        // step 4
+		        PdfContentByte cb = writer.getDirectContent();
+
+		        document.add(new Paragraph("Beacon Books"));
+		        document.add(new Paragraph("ISBN BARCODE"));
+		        BarcodeEAN codeEAN = new BarcodeEAN();
+		        codeEAN.setCodeType(com.itextpdf.text.pdf.Barcode.EAN13);
+		        if(isbn.length()==13)
+		        {
+		        codeEAN.setCode(isbn);
+		        BarcodeEAN codeSUPP = new BarcodeEAN();
+		        codeSUPP.setCodeType(com.itextpdf.text.pdf.Barcode.SUPP5);
+		        codeSUPP.setCode("55999");
+		        codeSUPP.setBaseline(-2);
+		        BarcodeEANSUPP eanSupp = new BarcodeEANSUPP(codeEAN, codeSUPP);
+		        document.add(eanSupp.createImageWithBarcode(cb, null, BaseColor.BLUE));
+
+		        }
+		        document.close();
+
 		return ok(newBook.render());
 	}
 
@@ -84,8 +135,8 @@ public class BookController extends Controller {
 			email.setSubject(reason +" "+ "id#"+bookId);
 			email.setMsg(message);
 			email.send();
-				
-				
+
+
 			}
 			catch(Exception e)
 			{

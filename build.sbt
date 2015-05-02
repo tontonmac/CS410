@@ -12,5 +12,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "mysql" % "mysql-connector-java" % "5.1.18",
-  "com.typesafe.play" %% "play-mailer" % "2.4.0"
+  "com.typesafe.play" %% "play-mailer" % "2.4.0",
+  "com.itextpdf" % "itextpdf" % "5.1.0"
 )
