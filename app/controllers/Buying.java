@@ -97,6 +97,12 @@ public class Buying extends Controller {
 
         scala.collection.Iterator<String> iterator = isbnParam.iterator();
 
+        if (iterator.isEmpty()) {
+        	flash("error", "No required books found for this course.");
+        	return redirect(
+        			routes.Buying.buy()
+        	);
+        }
         while(iterator.hasNext()) {
         	fBooks.add(new FederatedBook(iterator.next()));
         }

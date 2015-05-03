@@ -12,6 +12,9 @@
 
 
 <div class="container">
+	@if(flash.contains("error")) {
+        <div class="alert alert-error">@flash.get("error")</div>
+    }
 	<h2>Search by course</h2>
 	<script type="text/javascript">
 	$(document).ready(function() {
