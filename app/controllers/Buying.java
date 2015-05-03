@@ -165,13 +165,17 @@ public class Buying extends Controller {
         {
             file = schedule.getFile();
         }
-
-        courseSummaryList = parseSchedule(file);
-        HashMap<Course,UMBClass> courseAndClassList = buildCourseAndClassMap(courseSummaryList);
-
+         
+        try {
+            courseSummaryList = parseSchedule(file);
+            HashMap<Course,UMBClass> courseAndClassList = buildCourseAndClassMap(courseSummaryList);
             Cache.set("user.classes",courseAndClassList);
             return ok(uploadSchedule.render(courseAndClassList));
+        } catch (Exception e) {
+            flash("error", "Error parsing file.  Please select a file in ICS format");
+            return redirect("/buy");
         }
+    }
 
 
 
