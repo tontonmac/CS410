@@ -1,5 +1,7 @@
 package controllers;
 
+import java.lang.reflect.InvocationTargetException;
+
 import models.User;
 import play.*;
 import play.data.*;
@@ -29,18 +31,26 @@ public class LoginRegister extends Controller {
     }
     
     public static Result authenticate() {
-    	Form<Login> form = Form.form(Login.class).bindFromRequest();
-        if (form.hasErrors()) {
-            return badRequest(login.render(form));
-        } else {
-            session().clear();
-            String email = form.get().email;
-            session("email", email);
-            session("userid", Long.toString(User.findUserByEmail(email).id));
-            return redirect(
-                routes.Application.index()
-            );
-        }
+    	try {
+	    		Form<Login> form = Form.form(Login.class).bindFromRequest();
+	
+	    		if (form.hasErrors()) {
+	            return badRequest(login.render(form));
+	        } else {
+	            session().clear();
+	            String email = form.get().email;
+	            session("email", email);
+	            session("userid", Long.toString(User.findUserByEmail(email).id));
+	            return redirect(
+	                routes.Application.index()
+	            );
+	        }
+    	} catch (Exception e) {
+    		flash("error", "Invalid username or password");
+    		return redirect(
+    				routes.LoginRegister.login()
+    		);
+    	}
     }
     
     public static Result register() {
@@ -49,14 +59,22 @@ public class LoginRegister extends Controller {
     	String lastName = requestData.get("lastName");
     	String password = requestData.get("password");
     	String email = requestData.get("email");
+    	if (User.findUserByEmail(email) == null) {
+    		User.createUser(firstName, lastName, password, email);
+    		
+    		session("email", email);
+            session("userid", Long.toString(User.findUserByEmail(email).id));
+            flash("success", "Account created successfully");
+            return redirect(
+                routes.Application.index()
+            );
+    	} else {
+    		flash("error", "User with this email address already exists!");
+    		return redirect(
+    				routes.LoginRegister.login()
+    		);
+    	}
     	
-    	User.createUser(firstName, lastName, password, email);
-    	session("email", email);
-        session("userid", Long.toString(User.findUserByEmail(email).id));
-        flash("success", "Account created successfully");
-        return redirect(
-            routes.Application.index()
-        );
     }
     
 }

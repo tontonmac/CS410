@@ -13,6 +13,9 @@
     @if(flash.contains("success")) {
         <div class="alert alert-success">@flash.get("success")</div>
     }
+    @if(flash.contains("error")) {
+    	<div class="alert alert-error">@flash.get("error")</div>
+    }
     <div class="row">
         <div class="col-sm-4 col-sm-offset-1">
             <h2>Login</h2>
