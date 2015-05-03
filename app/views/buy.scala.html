@@ -13,7 +13,7 @@
 
 <div class="container">
 	@if(flash.contains("error")) {
-        <div class="alert alert-error">@flash.get("error")</div>
+        <div class="alert alert-danger">@flash.get("error")</div>
     }
 	<h2>Search by course</h2>
 	<script type="text/javascript">
@@ -96,13 +96,13 @@
 						}
 					</select>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<label for="deparment">Department</label> <select name="department" id="department"
 						class="department" required>
 						<option value=""></option>
 					</select>
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-4">
 					<label for="course">Course</label> <select name="course" id="course" class="course" required>
 						<option value=""></option>
 					</select>
