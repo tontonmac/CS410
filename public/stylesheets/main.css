@@ -125,3 +125,11 @@ h1.page-header {
     margin-top: 0;
 }
 
+/* my listings page */
+.mylistings_wrap h3 {
+    margin-top: 0;
+}
+
+.mylistings_wrap .row {
+    margin-top: 30px
+}

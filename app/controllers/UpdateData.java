@@ -74,6 +74,7 @@ public class UpdateData extends Controller{
 	    {
 	    	String listedBy=session().get("userid");
 	    	List<Listing> listings12 = Listing.findListingsBySeller(listedBy);
+            flash("success", "Listing updated successfully");
 	        return ok(listings.render(listings12));
 	    }
 	        

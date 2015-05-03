@@ -8,40 +8,42 @@
     </div>
 </div>
 
+@if(flash.containsKey("success")) {
+    <div class="container">
+        <div class="alert alert-success">@flash.get("success")</div>
+    </div>
+}
 
-<div class="container">
-    <!-- dynamically generate rows for each listing based on the following html snippet -->
-    <div class="row">
-
+<div class="container mylistings_wrap">
 @if(listings.isEmpty()) {
- <p>You are not listing anything yet ... </p>
+    <p>You are not listing anything yet ... </p>
  } else {
-
     <h2>My Listings</h2>
 
+        <!-- dynamically generate rows for each listing based on the following html snippet -->
         @for(listing <- listings) {
-        <div class="col-sm-1">
-		        	 <img class="img-thumbnail img-rounded" src="@routes.Assets.at("images/book.png")" width="120" height="120" >
-        </div>
-        <div class="col-sm-3 col-sm-offset-1">
-        	<h3><strong>Title :</strong>@listing.title</h3>
-        	<p><strong>Author :</strong>@listing.author</p>
-        	<p><strong>Price :</strong>$@listing.price</p>
-        	<p><strong>Description :</strong>@listing.description</p>
-        </div>
+            <div class="row">
+                <div class="col-sm-1">
+                    <img class="img-thumbnail img-rounded" src="@routes.Assets.at("images/book.png")" width="120" height="120" >
+                </div>
+                <div class="col-sm-5 col-sm-offset-1">
+                	<h3><strong>Title: </strong>@listing.title</h3>
+                	<p><strong>Author: </strong>@listing.author</p>
+                	<p><strong>Price: </strong>$@listing.price</p>
+                	<p><strong>Description: </strong>@listing.description</p>
+                </div>
 
-          <div class="col-sm-3">
-        <a class="btn btn-default btn-md" href="/book/edit?id=@listing.id" role="button">Edit</a>
-        <a class="btn btn-default btn-md" href="/book/delete?id=@listing.id" role="button">Delete</a>
-        </div>
-    </div>
-
-    }
+                <div class="col-sm-3">
+                    <a class="btn btn-default btn-md" href="/book/edit?id=@listing.id" role="button">Edit</a>
+                    <a class="btn btn-default btn-md" href="/book/delete?id=@listing.id" role="button">Delete</a>
+                </div>
+            </div>
+        }
 }
     <!-- always display the list a book button -->
-<center>
-    <a class="btn btn-default btn-md" href="/book/new" role="button">List a book</a>
-</center>
+    <center>
+        <a class="btn btn-default btn-md" href="/book/new" role="button">List a book</a>
+    </center>
 </div>
 
 }

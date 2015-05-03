@@ -13,7 +13,6 @@ import java.util.List;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -57,14 +56,14 @@ public class BookController extends Controller {
 		Double d_price = Double.valueOf(str_price);
 
 		System.out.println(str_price);
-		Listing.createOrEdit(null,description, d_price, title, author, isbn,
-				publisher, edition);
+		Listing.create(Long.parseLong(session().get("userid")), description, d_price, title, author, isbn,
+                publisher, edition);
 
 		// return redirect(
 		// routes.Application.index()
 		// );
 
-		      final String RESULT = "C:\\barcode.pdf";
+/*		      final String RESULT = "C:\\barcode.pdf";
 
 		        // step 1
 		        Document document = new Document(new Rectangle(340, 842));
@@ -90,9 +89,10 @@ public class BookController extends Controller {
 		        document.add(eanSupp.createImageWithBarcode(cb, null, BaseColor.BLUE));
 
 		        }
-		        document.close();
+		        document.close();*/
 
-		return ok(newBook.render());
+        flash("success", "Listing created successfully");
+        return redirect( controllers.routes.Selling.listings() );
 	}
 
 	@Security.Authenticated(Secured.class)
@@ -156,8 +156,8 @@ public class BookController extends Controller {
 			String userid = session("userid");
 			boolean flag = Listing.deleteListing(userid, id);
 			if (flag) {
+                flash("success", "Your listing was removed successfully");
 				// List<Listing> newListing=Listing.editListing(userid,id);
-				System.out.println("wowww");
 				List<Listing> afterDelete = Listing
 						.findListingsBySeller(userid);
 				return ok(listings.render(afterDelete));

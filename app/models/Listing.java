@@ -79,16 +79,10 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	       // return find.where().eq("listed_by_id", listedBy).findList();
     }
 
-    public static Listing createOrEdit(Long id,String description, Double price, String title, String author, String isbn,String publisher, String edition) {
-    	Listing listing = null;
+    public static Listing create(Long listed_by_id,String description, Double price, String title, String author, String isbn,String publisher, String edition) {
+    	Listing listing = new Listing();
 
-    	if (id != null) {
-    		listing = Listing.find.byId(id);
-    	} else {
-    		listing = new Listing();
-    	}
-
-
+        listing.listedBy = User.find.where().eq("id", listed_by_id).findUnique();
     	listing.description = description;
     	listing.price = price;
     	listing.title = title;
