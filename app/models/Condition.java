@@ -21,4 +21,8 @@ public class Condition extends Model {
 	 public static List<Condition> findAll() {
 	        return find.all();
     }
+	 
+	 public static Condition findById(long id) {
+		 return find.byId(id);
+	 }
 }

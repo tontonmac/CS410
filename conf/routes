@@ -33,6 +33,7 @@ POST	   /book/email   		controllers.BookController.sendEmail()
 
 # Support
 GET         /support                   controllers.Support.support()
+POST         /support            controllers.Support.submitSupport()
 
 # Listings
 GET         /listings                  controllers.Selling.listings()

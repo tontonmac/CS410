@@ -72,7 +72,7 @@
                                     <tbody>
                                         @for(localResult <- fBook.getLocalResults()) {
                                           <tr>
-                                              <td>@localResult.conditionName()</td>
+                                              <td>@localResult.condition.name</td>
                                               <td>@to_currency(localResult.price)</td>
                                               <td>@localResult.description</td>
                                               <td>

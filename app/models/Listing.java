@@ -42,16 +42,10 @@ public class Listing extends Model {
     public String image_path;
     public String edition;
     public Integer num_views;
-    public Integer book_condition_id;
 
     @OneToOne
     @JoinColumn(name = "book_condition_id", referencedColumnName = "id")
     public Condition condition;
-
-    public String conditionName() {
-        return condition.name;
-    }
-
 
 public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class, Listing.class);
 
@@ -80,7 +74,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	       // return find.where().eq("listed_by_id", listedBy).findList();
     }
 
-    public static Listing create(Long listed_by_id,String description, Double price, String title, String author, String isbn,String publisher, String edition) {
+    public static Listing create(Long listed_by_id,String description, Double price, String title, String author, String isbn,String publisher, String edition, Long book_condition_id) {
     	Listing listing = new Listing();
 
         listing.listedBy = User.find.where().eq("id", listed_by_id).findUnique();
@@ -92,6 +86,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 
     	listing.publisher = publisher;
     	listing.edition = edition;
+    	listing.condition = Condition.findById(book_condition_id);
 
     	listing.save();
     	return listing;
@@ -114,7 +109,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	    	listing.copyright_date = copyright_date;
 	    	listing.publisher = publisher;
 	    	listing.edition = edition;
-  	    	listing.book_condition_id =book_condition_id;
+  	    	listing.condition = Condition.findById(book_condition_id);
 	    	listing.save();
 	    	return listing;
 	    }

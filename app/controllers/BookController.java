@@ -49,17 +49,17 @@ public class BookController extends Controller {
 		DynamicForm requestData = Form.form().bindFromRequest();
 		String title = requestData.get("title");
 		String isbn = requestData.get("isbn");
-		String condition = requestData.get("condition");
 		String author = requestData.get("author");
 		String publisher = requestData.get("publisher");
 		String edition = requestData.get("edition");
 		String description = requestData.get("description");
 		String str_price = requestData.get("price");
+		Long condition = Long.parseLong(requestData.get("condition"));
 		Double d_price = Double.valueOf(str_price);
 
 		System.out.println(str_price);
 		Listing.create(Long.parseLong(session().get("userid")), description, d_price, title, author, isbn,
-                publisher, edition);
+                publisher, edition, condition);
 
 		// return redirect(
 		// routes.Application.index()
@@ -131,15 +131,13 @@ public class BookController extends Controller {
 			Email email = new SimpleEmail();
 			email.setHostName("smtp.gmail.com");
 			email.setSmtpPort(465);
-			email.setAuthenticator(new DefaultAuthenticator("mcamara9@gmail.com", "mypassword"));
+			email.setAuthenticator(new DefaultAuthenticator("nullterminatorscs410@gmail.com", "software123"));
 			email.setSSLOnConnect(true);
-			email.setFrom("mcamara9@gmail.com");
-			email.addTo("mcamara9@gmail.com");
+			email.setFrom("nullterminatorscs410@gmail.com");
+			email.addTo("nullterminatorscs410@gmail.com");
 			email.setSubject(reason +" "+ "id#"+bookId);
 			email.setMsg(message);
 			email.send();
-
-
 			}
 			catch(Exception e)
 			{

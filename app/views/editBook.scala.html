@@ -36,7 +36,7 @@
                         <select class="form-control" id="condition" name="condition" required>
 
                             @for(conditionsEach <- conditions) {
-                             @if(editList.book_condition_id==conditionsEach.id){
+                             @if(editList.condition.id==conditionsEach.id){
 														<option value="@conditionsEach.id" selected="selected">@conditionsEach.name</option>
 														} else {
 														<option value="@conditionsEach.id">@conditionsEach.name</option>
