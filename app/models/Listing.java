@@ -42,6 +42,7 @@ public class Listing extends Model {
     public String image_path;
     public String edition;
     public Integer num_views;
+    public Integer book_condition_id;
 
     @OneToOne
     @JoinColumn(name = "book_condition_id", referencedColumnName = "id")
@@ -95,7 +96,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
     	listing.save();
     	return listing;
     }
-    public static Listing Edit(Long id, String description, Double price, String title, String author, String isbn, Date copyright_date, String publisher, String edition) {
+    public static Listing Edit(Long id, String description, Double price, String title, String author, String isbn, Date copyright_date, String publisher, String edition,Integer book_condition_id) {
 	    	Listing listing = null;
 
 	    	if (id != null) {
@@ -113,7 +114,7 @@ public static Finder<Long,Listing> find12 = new Finder<Long,Listing>(Long.class,
 	    	listing.copyright_date = copyright_date;
 	    	listing.publisher = publisher;
 	    	listing.edition = edition;
-
+  	    	listing.book_condition_id =book_condition_id;
 	    	listing.save();
 	    	return listing;
 	    }

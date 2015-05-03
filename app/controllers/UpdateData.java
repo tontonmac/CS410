@@ -35,32 +35,32 @@ public class UpdateData extends Controller{
 	    public String edition;
 	    public Integer num_views;
 
-	    
-	  
+
+
 	}
 
-    
-    
+
+
     public static Result updateForm() {
-    	
+
     	DynamicForm requestData = Form.form().bindFromRequest();
 	        /*System.out.println();
-	        
+
 	        System.out.println();
 	        System.out.println();
 	        System.out.println();
 	        System.out.println();
 	        System.out.println(requestData.get("copyright_date"));
 	        System.out.println();
-	        
+
 	        System.out.println();
-	        
+
 	        System.out.println(requestData.get("condition"));
-	        
+
 	        */
         Long id=Long.parseLong(requestData.get("id"));
-        
-        
+
+
         String description=requestData.get("description");
         Double price=Double.parseDouble(requestData.get("price"));
         String title=requestData.get("title");
@@ -69,7 +69,10 @@ public class UpdateData extends Controller{
         Date copyright_date=null;
         String publisher=requestData.get("publisher");
         String edition=requestData.get("edition");
-    Listing listing=Listing.Edit(id,description,price,title,author,isbn,copyright_date,publisher,edition);
+        String condition=requestData.get("condition");
+        int condition_id = Integer.parseInt(condition);
+
+    Listing listing=Listing.Edit(id,description,price,title,author,isbn,copyright_date,publisher,edition,condition_id);
 	    if(listing!=null)
 	    {
 	    	String listedBy=session().get("userid");
@@ -77,15 +80,15 @@ public class UpdateData extends Controller{
             flash("success", "Listing updated successfully");
 	        return ok(listings.render(listings12));
 	    }
-	        
+
      	return null;
-       
+
     }
 
-	
-    
-    
-	
+
+
+
+
 }
 
 

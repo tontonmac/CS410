@@ -1,4 +1,4 @@
-@(editList:Listing)
+@(editList:Listing,conditions: List[Condition])
 
 
 
@@ -35,7 +35,9 @@
                         <label for="condition">Condition</label>
                         <select class="form-control" id="condition" name="condition" required>
 
-                            <option value="1">new</option>
+                            @for(conditionsEach <- conditions) {
+														<option value="@conditionsEach.id">@conditionsEach.name</option>
+						}
 
                             <!-- todo: add dynamic donditions here -->
                         </select>

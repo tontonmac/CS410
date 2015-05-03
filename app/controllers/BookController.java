@@ -10,6 +10,7 @@ import models.User;
 
 import java.util.List;
 
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
@@ -35,6 +36,7 @@ import com.itextpdf.text.pdf.BarcodePostnet;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import models.Condition;
 
 public class BookController extends Controller {
 
@@ -101,7 +103,8 @@ public class BookController extends Controller {
 
 		Listing editList = Listing.editListing(userid, id);
 		if (editList != null) {
-			return ok(editBook.render(editList));
+			List<Condition> conditions = Condition.findAll();
+			return ok(editBook.render(editList,conditions));
 		} else {
 			return ok(index.render(null));
 		}
