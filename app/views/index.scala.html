@@ -11,6 +11,9 @@
 
 
 <div class="container">
+    @if(flash.contains("success")) {
+        <div class="alert alert-success">@flash.get("success")</div>
+    }
     <div class="row">
         <div class="col-sm-4 buy-sell-splash col-sm-offset-1">
             <h2>Buy Textbooks</h2>

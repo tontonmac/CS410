@@ -53,6 +53,7 @@ public class LoginRegister extends Controller {
     	User.createUser(firstName, lastName, password, email);
     	session("email", email);
         session("userid", Long.toString(User.findUserByEmail(email).id));
+        flash("success", "Account created successfully");
         return redirect(
             routes.Application.index()
         );
