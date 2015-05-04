@@ -125,6 +125,23 @@ h1.page-header {
     margin-top: 0;
 }
 
+.search-by-course select {
+    min-width: 100px;
+    max-width: 400px;
+}
+
+.search-by-course .buy-course {
+    padding-bottom: 10px;
+}
+
+.search-by-course .buy-course label {
+    padding-right: 10px;
+}
+
+.search-by-isbn input {
+    max-width: 400px;
+}
+
 /* my listings page */
 .mylistings_wrap h3 {
     margin-top: 0;
@@ -133,3 +150,5 @@ h1.page-header {
 .mylistings_wrap .row {
     margin-top: 30px
 }
+
+

@@ -86,9 +86,9 @@
 	});
 	</script>
 	<form action="/buy/searchByCourse" method="post">
-		<div class="form-group">
+		<div class="form-grou search-by-course">
 			<div class="row">
-				<div class="col-sm-2">
+				<div class="col-sm-3 buy-course">
 					<label for="term">Term</label> <select name="term" id="term" class="term" required>
 						<option value=""></option>
 						@for(term <- terms) {
@@ -96,34 +96,41 @@
 						}
 					</select>
 				</div>
-				<div class="col-sm-3">
-					<label for="deparment">Department</label> <select name="department" id="department"
-						class="department" required>
-						<option value=""></option>
-					</select>
-				</div>
-				<div class="col-sm-4">
-					<label for="course">Course</label> <select name="course" id="course" class="course" required>
-						<option value=""></option>
-					</select>
-				</div>
-				<div class="col-sm-2">
-					<label for="section">Section</label> <select name="section" id="section" class="section" required>
-						<option value=""></option>
-					</select>
-				</div>
+
 			</div>
+            <div class="row">
+                <div class="col-sm-3 buy-course">
+                    <label for="deparment">Department</label> <select name="department" id="department"
+                class="department" required>
+                    <option value=""></option>
+                </select>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-sm-5 buy-course">
+                    <label for="course">Course</label> <select name="course" id="course" class="course" required>
+                    <option value=""></option>
+                </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 buy-course">
+                    <label for="section">Section</label> <select name="section" id="section" class="section" required>
+                    <option value=""></option>
+                </select>
+                </div>
+            </div>
 		</div>
-		<button type="submit" class="btn btn-default">Go</button>
+		<button type="submit" class="btn btn-primary">Go</button>
 	</form>
 	<hr />
 	<form action="/buy/searchByIsbn" method="get">
-		<div class="form-group">
+		<div class="form-group search-by-isbn">
 			<h2>ISBN Lookup</h2>
 			<label for="isbn">ISBN</label> <input type="text"
 				class="form-control" name="isbn" id="isbn" required>
 		</div>
-		<button type="submit" class="btn btn-default">Go</button>
+		<button type="submit" class="btn btn-primary">Go</button>
 	</form>
 
 	<form method="POST" enctype="multipart/form-data" action="buy/uploadSchedule">
